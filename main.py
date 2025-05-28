@@ -272,7 +272,7 @@ async def purchase(message: Message):
         )
         await message.answer("""💸 Choose your subscription plan\:
                                      
-  • 1 Hour Plan   ➜ *10$ (trial mode)*                                                                   
+  • 1 Hour Plan   ➜ *10$ \(trial mode\)*                                                                   
   • 1 Day plan    ➜ *15$*
   • 3 Days plan   ➜ *40$*
   • 1 Week plan   ➜ *80$*
