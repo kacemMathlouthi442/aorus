@@ -271,8 +271,8 @@ async def purchase(message: Message):
             ]
         ]
         )
-        await message.message.delete()
-        await message.message.answer("""💸 Choose your subscription plan\:
+        await message.delete()
+        await message.answer("""💸 Choose your subscription plan\:
                                      
   • 1 Hour Plan   ➜ *10$ (trial mode)*                                                                   
   • 1 Day plan    ➜ *15$*
