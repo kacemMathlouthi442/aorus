@@ -77,7 +77,7 @@ async def start_message(message):
             username='None'
         if not(user_exists(user_id)):
             add_user(message.from_user)
-            await bot.send_message(chat_id=new_users_ID,text='🆕 *New user*: ['+str(get_user_count())+']\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`\n*User ID*\: `'+str(user_id),parse_mode='MarkdownV2')
+            await bot.send_message(chat_id=new_users_ID,text='🆕 *New user*: ['+str(get_user_count())+']\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`\n*User ID*\: `'+str(user_id)+'`',parse_mode='MarkdownV2')
         keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
