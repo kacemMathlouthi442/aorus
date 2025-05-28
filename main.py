@@ -270,7 +270,7 @@ async def purchase(message: Message):
             ]
         ]
         )
-        await message.answer("""💸 Choose your subscription plan\:
+        await message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
                                      
   • 1 Hour Plan   ➜ *10$ \(trial mode\)*                                                                   
   • 1 Day plan    ➜ *15$*
