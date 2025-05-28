@@ -81,7 +81,7 @@ async def start_message(message):
         keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="🌐 Community", url="community")
+                InlineKeyboardButton(text="🌐 Community", callback_data="community")
             ],
             [
                 InlineKeyboardButton(text="🆘 Support", url=admin_link),
@@ -508,7 +508,7 @@ async def restart_message(callback: CallbackQuery, bot: Bot):
         keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="🌐 Community", url="community")
+                InlineKeyboardButton(text="🌐 Community", callback_data="community")
             ],
             [
                 InlineKeyboardButton(text="🆘 Support", url=admin_link),
