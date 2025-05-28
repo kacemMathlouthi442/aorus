@@ -488,7 +488,7 @@ async def restart_message(callback: CallbackQuery, bot: Bot):
         ]
         )
         image = FSInputFile("img.jpg")
-        await callback.answer_photo(image, caption="""*AORUS OTP*
+        await callback.message.answer_photo(image, caption="""*AORUS OTP*
                                 
 Hello *"""+escape_markdown(name)+"""*\,                         
 Step into the future of OTP spoofing with *AORUS OTP*\.
