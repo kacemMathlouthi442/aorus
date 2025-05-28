@@ -55,7 +55,7 @@ key3months = [line.strip() for line in lines]
 
 admin_ID,new_users_ID,redeemed_keys_ID,redeem_ip_ID,banned_ID,main_channel_ID,vouches_ID = 7937156097,-1002182436976,-1002618555054,-1002616169248,-1002659687622,-1002666251781,-1002662428684 #CHANNEL IDs
 
-main_channel_link,vouches_link,admin_link = 'https://t.me/+bVgkMu_cq-sxNDI0','https://t.me/+iuVoCM_yAuY1M2Fk','https://t.me/@xccn5426' #CHANNEL LINKS 
+main_channel_link,vouches_link,admin_link = 'https://t.me/+bVgkMu_cq-sxNDI0','https://t.me/+iuVoCM_yAuY1M2Fk','https://t.me/xccn5426' #CHANNEL LINKS 
 
 btc,usdt,sol,ltc = 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk','TRRVAuPEGJ4EgE33u1pV6gNUXxM1R5v1aY','8Ra9HKVrKNakEeQfqDzrVn1sFoQoFmbR51UHMRweT9hY','LRJ8n55djedy4jyKP3Kkqi6iEy3BYC1FLt'
 
@@ -390,6 +390,8 @@ async def redeem(message: Message): #DONE
 async def send_local_video(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
+        keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
         if get_user_info(user_id,'date')!='N/A':
                 now = datetime
                 expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
@@ -401,26 +403,6 @@ async def send_local_video(message: Message):
                         victim=args[1]
                         number=args[2]
                         if victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15 and args[4].isdecimal() and args[3] in services:
-                            keyboard = InlineKeyboardMarkup(
-                        inline_keyboard=[
-                            [
-                                InlineKeyboardButton(text="🆘 Support", url=admin_link)
-                            ],
-                            [
-                                InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
-                            ]
-                        ]
-                        )
-                            keyboard1 = InlineKeyboardMarkup(
-            inline_keyboard=[
-                [
-                InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")
-                ],
-                [
-                    InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
-                ]
-            ]
-            )
                             sleep(1)
                             await message.answer("""🔥 CALL STARTED 
  📲 VICTIM NUMBER : """+victim+"""
@@ -449,6 +431,8 @@ async def send_local_video(message: Message):
 async def prebuilt_commands(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
+        keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
         if get_user_info(user_id,'date')!='N/A':
                 now = datetime
                 expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
@@ -459,26 +443,6 @@ async def prebuilt_commands(message: Message):
                     else:
                         victim=args[1]
                         if victim.isdecimal() and 6<=len(victim)<=15 and args[2].isdecimal():
-                            keyboard = InlineKeyboardMarkup(
-                        inline_keyboard=[
-                            [
-                                InlineKeyboardButton(text="🆘 Support", url=admin_link)
-                            ],
-                            [
-                                InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
-                            ]
-                        ]
-                        )
-                            keyboard1 = InlineKeyboardMarkup(
-            inline_keyboard=[
-                [
-                InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")
-                ],
-                [
-                    InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
-                ]
-            ]
-            )
                             sleep(1)
                             await message.answer("""🔥 CALL STARTED 
  📲 VICTIM NUMBER : """+victim+"""
@@ -632,7 +596,7 @@ async def features(callback: CallbackQuery, bot: Bot):
         )
         await callback.message.delete()
         image = FSInputFile("img.jpg")  # Path to your local file
-        await callback.message.answer_photo(image, caption=escape_markdown("""💥 *AORUS OTP* has many UNIQUE features that you can't find in any other bot\.
+        await callback.message.answer_photo(image, caption="""💥 *AORUS OTP* has many UNIQUE features that you can't find in any other bot\.
 
 🎯 Features included\:
   🔸 24/7 Support
@@ -640,7 +604,7 @@ async def features(callback: CallbackQuery, bot: Bot):
   🔸 Live Panel Feeling
   🔸 12+ Pre\-made Modes
   🔸 99\.99% Up\-time
-  🔸 Call Recording"""),parse_mode='MarkdownV2',reply_markup=keyboard)
+  🔸 Call Recording""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 
 #COMMUNITY
@@ -705,7 +669,7 @@ async def pricing(callback: CallbackQuery, bot: Bot):
 
 #BTC
 @dp.callback_query(F.data.in_(["btc"])) #DONE
-async def btc(callback: CallbackQuery):
+async def btc_wallet(callback: CallbackQuery):
     user_id=callback.from_user.id
     if not (get_user_info(user_id,'banned')):
         keyboard = InlineKeyboardMarkup(
@@ -726,7 +690,7 @@ async def btc(callback: CallbackQuery):
 
 #USDT
 @dp.callback_query(F.data.in_(["usdt"])) #DONE
-async def usdt(callback: CallbackQuery):
+async def usdt_wallet(callback: CallbackQuery):
     user_id = callback.from_user.id
     if not (get_user_info(user_id,'banned')):
         keyboard = InlineKeyboardMarkup(
@@ -747,7 +711,7 @@ async def usdt(callback: CallbackQuery):
 
 #SOL
 @dp.callback_query(F.data.in_(["sol"])) #DONE
-async def sol(callback: CallbackQuery):
+async def sol_wallet(callback: CallbackQuery):
     user_id=callback.from_user.id
     if not (get_user_info(user_id,'banned')):
         keyboard = InlineKeyboardMarkup(
@@ -768,7 +732,7 @@ async def sol(callback: CallbackQuery):
 
 #LTC
 @dp.callback_query(F.data.in_(["ltc"])) #DONE
-async def ltc(callback: CallbackQuery):
+async def ltc_wallet(callback: CallbackQuery):
     user_id=callback.from_user.id
     if not (get_user_info(user_id,'banned')):
         keyboard = InlineKeyboardMarkup(
