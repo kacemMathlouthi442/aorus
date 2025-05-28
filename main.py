@@ -629,10 +629,10 @@ async def community(callback: CallbackQuery, bot: Bot):
         )
         await callback.message.delete()
         image = FSInputFile("img.jpg")  # Path to your local file
-        await callback.message.answer_photo(image, caption=escape_markdown("""Welcome to *AORUS OTP*\! 🚀 
+        await callback.message.answer_photo(image, caption="""Welcome to *AORUS OTP*\! 🚀 
 Stay connected with our Telegram channels for the latest updates\, exclusive features\, and real\-time support\. 
 Whether you're here for fast OTP services or want to stay informed about new tools and improvements\, our channels have you covered\.
-Join us and be part of the growing *AORUS OTP community*\!"""),parse_mode='MarkdownV2',reply_markup=keyboard)
+Join us and be part of the growing *AORUS OTP community*\!""",parse_mode='MarkdownV2',reply_markup=keyboard)
         
 
 #PRICES
