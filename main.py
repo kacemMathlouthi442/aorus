@@ -13,8 +13,8 @@ from dotenv import load_dotenv
 import re
 import os
 
-#keep_alive()
-#load_dotenv()
+keep_alive()
+load_dotenv()
 
 bot = Bot(token=os.environ.get('token'))
 dp = Dispatcher()
