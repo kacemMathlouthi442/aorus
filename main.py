@@ -248,7 +248,7 @@ async def services(message: Message):
         
 
 #PURACHSING COMMAND
-@dp.message(Command("Purchase")) #DONE
+@dp.message(Command("purchase")) #DONE
 async def purchase(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
@@ -487,6 +487,7 @@ async def restart_message(callback: CallbackQuery, bot: Bot):
             ]
         ]
         )
+        await callback.message.delete()
         image = FSInputFile("img.jpg")
         await callback.message.answer_photo(image, caption="""*AORUS OTP*
                                 
@@ -602,7 +603,7 @@ async def features(callback: CallbackQuery, bot: Bot):
   🔸 24/7 Support
   🔸 Automated Payment System
   🔸 Live Panel Feeling
-  🔸 12+ Pre\-made Modes
+  🔸 12\+ Pre\-made Modes
   🔸 99\.99% Up\-time
   🔸 Call Recording""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
@@ -678,7 +679,7 @@ async def btc_wallet(callback: CallbackQuery):
             InlineKeyboardButton(text="🆘 Support", url=admin_link)
             ],
             [
-                InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+                InlineKeyboardButton(text="🔙 BACK TO PRICING MENU", callback_data="Purchase")
             ]
         ]
         )
@@ -699,7 +700,7 @@ async def usdt_wallet(callback: CallbackQuery):
             InlineKeyboardButton(text="🆘 Support", url=admin_link)
             ],
             [
-                InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+                InlineKeyboardButton(text="🔙 BACK TO PRICING MENU", callback_data="Purchase")
             ]
         ]
         )
@@ -720,7 +721,7 @@ async def sol_wallet(callback: CallbackQuery):
             InlineKeyboardButton(text="🆘 Support", url=admin_link)
             ],
             [
-                InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+                InlineKeyboardButton(text="🔙 BACK TO PRICING MENU", callback_data="Purchase")
             ]
         ]
         )
@@ -741,7 +742,7 @@ async def ltc_wallet(callback: CallbackQuery):
             InlineKeyboardButton(text="🆘 Support", url=admin_link)
             ],
             [
-                InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+                InlineKeyboardButton(text="🔙 BACK TO PRICING MENU", callback_data="Purchase")
             ]
         ]
         )
