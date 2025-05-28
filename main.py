@@ -85,7 +85,7 @@ async def start_message(message):
             ],
             [
                 InlineKeyboardButton(text="🆘 Support", url=admin_link),
-                InlineKeyboardButton(text="👤 Profile", url="profile"),
+                InlineKeyboardButton(text="👤 Profile", callback_data="profile"),
             ],
             [
                 InlineKeyboardButton(text="⚙️ Commands", callback_data="Commands"),
@@ -512,7 +512,7 @@ async def restart_message(callback: CallbackQuery, bot: Bot):
             ],
             [
                 InlineKeyboardButton(text="🆘 Support", url=admin_link),
-                InlineKeyboardButton(text="👤 Profile", url="profile"),
+                InlineKeyboardButton(text="👤 Profile", callback_data="profile"),
             ],
             [
                 InlineKeyboardButton(text="⚙️ Commands", callback_data="Commands"),
