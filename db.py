@@ -19,7 +19,7 @@ def create_users_table():
     date TEXT DEFAULT 'N/A'
 );
             """)
-    conn.commit()
+            conn.commit()
 
 #GET A USER INFO 
 def get_user_info(user_id, col):
