@@ -255,23 +255,21 @@ async def purchase(message: Message):
         keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="1 Hour", callback_data="1hour"),
-                InlineKeyboardButton(text="1 Day", callback_data="1day")
+                InlineKeyboardButton(text="🆘 Support", url=admin_link)
             ],
             [
-                InlineKeyboardButton(text="3 Days", callback_data="3days"),
-                InlineKeyboardButton(text="1 Week", callback_data="1week")
+                InlineKeyboardButton(text="💲 USDT", callback_data="usdt"),
+                InlineKeyboardButton(text="₿ BTC", callback_data="btc")
             ],
             [
-                InlineKeyboardButton(text="1 Month", callback_data="1month"),
-                InlineKeyboardButton(text="3 Months", callback_data="3months")
+                InlineKeyboardButton(text="𝑳 LTC", callback_data="ltc"),
+                InlineKeyboardButton(text="◎ SOL", callback_data="sol")
             ],
             [
                 InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
             ]
         ]
         )
-        await message.delete()
         await message.answer("""💸 Choose your subscription plan\:
                                      
   • 1 Hour Plan   ➜ *10$ (trial mode)*                                                                   
