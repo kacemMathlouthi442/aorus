@@ -690,14 +690,14 @@ Harness the power of cutting\-edge AI\, ultra\-fast global voice routing\, and s
 async def check_subchannel(callback: CallbackQuery, bot: Bot):
     user_id = callback.from_user.id
     if not(get_user_info(user_id,"banned")):
-        if await is_user_in_channel(bot,user_id):
-            keyboard = InlineKeyboardMarkup(
+        keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
                 [
                     InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
                 ]
             ]
             )
+        if await is_user_in_channel(bot,user_id):
             await callback.message.delete()
             await callback.message.answer("✔ You are a subscriber.\nYou can use the bot now.", reply_markup=keyboard)
         else:
