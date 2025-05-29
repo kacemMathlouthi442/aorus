@@ -260,7 +260,7 @@ async def switch_vouches_link(message: Message):
 async def phonelist(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
-        if is_user_in_channel(bot,user_id):
+        if await is_user_in_channel(bot,user_id):
             keyboard = InlineKeyboardMarkup(
                 inline_keyboard=[
                     [
@@ -300,7 +300,7 @@ async def phonelist(message: Message):
 async def check_services(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
-        if is_user_in_channel(bot,user_id):
+        if await is_user_in_channel(bot,user_id):
             keyboard = InlineKeyboardMarkup(
                 inline_keyboard=[
                     [
@@ -542,7 +542,7 @@ async def redeem(message: Message): #DONE
 async def send_local_video(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
-        if is_user_in_channel(bot,user_id):
+        if await is_user_in_channel(bot,user_id):
             keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)]])
             keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
             if get_user_info(user_id,'date')!='N/A':
@@ -597,7 +597,7 @@ async def send_local_video(message: Message):
 async def prebuilt_commands(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
-        if is_user_in_channel(bot,user_id):
+        if await is_user_in_channel(bot,user_id):
             keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)]])
             keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
             if get_user_info(user_id,'date')!='N/A':
@@ -689,7 +689,7 @@ Harness the power of cutting\-edge AI\, ultra\-fast global voice routing\, and s
 async def check_subchannel(callback: CallbackQuery, bot: Bot):
     user_id = callback.from_user.id
     if not(get_user_info(user_id,"banned")):
-        if is_user_in_channel(bot,user_id):
+        if await is_user_in_channel(bot,user_id):
             keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
                 [
@@ -721,7 +721,7 @@ async def check_subchannel(callback: CallbackQuery, bot: Bot):
 async def commands(callback: CallbackQuery, bot: Bot):
     user_id = callback.from_user.id
     if not (get_user_info(user_id,'banned')):
-        if is_user_in_channel(bot,user_id):
+        if await is_user_in_channel(bot,user_id):
             keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
                 [
