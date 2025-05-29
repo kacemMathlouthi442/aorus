@@ -115,12 +115,10 @@ def set_expired_date(user_id,plan):
 
 #is user in channels
 async def is_user_in_channel(bot: Bot, user_id):
-    try:
         member: ChatMember = await bot.get_chat_member(chat_id=vouches_ID, user_id=user_id)
         member1: ChatMember = await bot.get_chat_member(chat_id=main_channel_ID, user_id=user_id)
         return member.status in [ChatMemberStatus.MEMBER, ChatMemberStatus.CREATOR, ChatMemberStatus.ADMINISTRATOR] and member1.status in [ChatMemberStatus.MEMBER, ChatMemberStatus.CREATOR, ChatMemberStatus.ADMINISTRATOR]
-    except:
-        return True
+
     
 
 #START
