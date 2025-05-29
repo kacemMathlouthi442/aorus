@@ -702,7 +702,7 @@ async def check_subchannel(callback: CallbackQuery, bot: Bot):
             await callback.message.answer("✔ You are a subscriber.\nYou can use the bot now.", reply_markup=keyboard)
         else:
             await callback.message.delete()
-            await callback.message.answer("❌ You didn't subscribe yet.", reply_markup=keyboard)
+            await callback.message.answer("❌ You didn't subscribe yet.")
             keyboard = InlineKeyboardMarkup(
                 inline_keyboard=[
                     [
