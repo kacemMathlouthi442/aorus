@@ -219,10 +219,10 @@ async def switch_wallets(message: Message):
     if user_id == admin_ID:
         if btc != 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk':
             btc,usdt,sol,ltc = 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk','TRRVAuPEGJ4EgE33u1pV6gNUXxM1R5v1aY','8Ra9HKVrKNakEeQfqDzrVn1sFoQoFmbR51UHMRweT9hY','LRJ8n55djedy4jyKP3Kkqi6iEy3BYC1FLt'
-            await message.answer("From kacem wallets to ma7moud wallets switched successfully.")
+            await message.answer("From mahmod to kacem wallets switched successfully.")
         else:
             btc,usdt,sol,ltc = '12cb6coYbjnWZz2iwmJQu7mozsNNiNVhDZ','TEVNwArAAHUQt85QzPLmrvr3mbYo1NCVpr','826JXyvv4VG9ktLbNWxJ7sde8SGSJRBqsAe8VQr5LShm','LfUJW3kWVh1JW3WcXLvskw15s3ywm55qkL'
-            await message.answer("From ma7moud wallets to kacem wallets switched successfully.")
+            await message.answer("From kacem wallets to mahmod wallets switched successfully.")
     else:
         await message.answer("🚫 Only admin can use this command.")
 
@@ -1013,3 +1013,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+    
