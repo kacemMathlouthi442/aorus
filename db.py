@@ -15,15 +15,20 @@ def create_users_table():
     id BIGINT PRIMARY KEY,
     first_name TEXT,
     trial BOOLEAN DEFAULT FALSE,
+    IP BOOLEAN DEFAULT FALSE,
     banned BOOLEAN DEFAULT FALSE,
     date TEXT DEFAULT 'N/A'
 );
+            """)
+            cur.execute("""
+                ALTER TABLE users
+                ADD COLUMN IF NOT EXISTS IP BOOLEAN DEFAULT FALSE;
             """)
             conn.commit()
 
 #GET A USER INFO 
 def get_user_info(user_id, col):
-    allowed_columns = {"id", "first_name","banned", "date", "trial"}
+    allowed_columns = {"id", "first_name","banned", "date", "trial","IP"}
     if col not in allowed_columns:
         raise ValueError("Invalid column name")
     with get_connection() as conn:
@@ -46,7 +51,7 @@ def add_user(user):
 
 #SET USER VALUE
 def set_user_value(user_id, col, value):
-    allowed_columns = {"first_name","banned", "date", "trial"}
+    allowed_columns = {"first_name","banned", "date", "trial","IP"}
     if col not in allowed_columns:
         raise ValueError("Invalid column name")
     with get_connection() as conn:
