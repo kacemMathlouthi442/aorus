@@ -353,6 +353,7 @@ async def purchase(message: Message):
             ]
         ]
         )
+        await message.delete()
         await message.answer("""💸 Choose your subscription type:""",reply_markup=keyboard)
 
 
@@ -861,6 +862,7 @@ async def pricing(callback: CallbackQuery, bot: Bot):
             ]
         ]
         )
+        await callback.message.delete()
         await callback.message.answer("""💸 Choose your subscription type:""",reply_markup=keyboard)
 
 
@@ -886,7 +888,7 @@ async def premium_pricing(callback: CallbackQuery, bot: Bot):
                 InlineKeyboardButton(text="◎ SOL", callback_data="sol")
             ],
             [
-                InlineKeyboardButton(text="🔙 BACK TO PRICING LIST", callback_data="p=Purchase")
+                InlineKeyboardButton(text="🔙 BACK TO PRICING LIST", callback_data="Purchase")
             ]
         ]
         )
