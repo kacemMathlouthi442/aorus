@@ -65,6 +65,52 @@ def escape_markdown(text):
     return re.sub(f"([{re.escape(escape_chars)}])", r"\\\1", text)
 
 
+#SET USER EXPIRATION DATE
+def set_expired_date(user_id,plan):
+    now = datetime.now()
+    if get_user_info(user_id,'date')=='N/A':
+        if plan == '1hour':
+            expire_date = now+timedelta(hours=1)
+        elif plan == '1day':
+            expire_date = now+timedelta(days=1)
+        elif plan == '3days':
+            expire_date = now+timedelta(days=3)
+        elif plan == '1week':
+            expire_date = now+timedelta(days=7)
+        elif plan == '1month':
+            expire_date = now+timedelta(days=30)
+        elif plan == '3months':
+            expire_date = now+timedelta(days=90)
+    elif datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f") < now:
+        if plan == '1hour':
+            expire_date = now+timedelta(hours=1)
+        elif plan == '1day':
+            expire_date = now+timedelta(days=1)
+        elif plan == '3days':
+            expire_date = now+timedelta(days=3)
+        elif plan == '1week':
+            expire_date = now+timedelta(days=7)
+        elif plan == '1month':
+            expire_date = now+timedelta(days=30)
+        elif plan == '3months':
+            expire_date = now+timedelta(days=90)
+    elif datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f") > now:
+        old_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
+        if plan == '1hour':
+            expire_date = old_date+timedelta(hours=1)
+        elif plan == '1day':
+            expire_date = old_date+timedelta(days=1)
+        elif plan == '3days':
+            expire_date = old_date+timedelta(days=3)
+        elif plan == '1week':
+            expire_date = old_date+timedelta(days=7)
+        elif plan == '1month':
+            expire_date = old_date+timedelta(days=30)
+        elif plan == '3months':
+            expire_date = old_date+timedelta(days=90)
+    set_user_value(user_id,'date',str(expire_date))
+
+
 #START
 @dp.message(Command("start")) #DONE
 async def start_message(message):
@@ -332,42 +378,42 @@ async def redeem(message: Message): #DONE
             sleep(1)
             await message.answer("⌛ Please wait.")
             sleep(3)
-            set_user_value(user_id,'date',str(datetime.now()+timedelta(hours=1)))
+            set_expired_date(user_id,'1hour')
             await message.answer("🌅 Trial Key for 1 Hour redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
             await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Hour key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
         elif args[1] in key1day:
             sleep(1)
             await message.answer("⌛ Please wait.")
             sleep(3)
-            set_user_value(user_id,'date',str(datetime.now()+timedelta(days=1)))
+            set_expired_date(user_id,'1day')
             await message.answer("🌅 Key for 1 Day redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
             await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Day key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
         elif args[1] in key3days:
             sleep(1)
             await message.answer("⌛ Please wait.")
             sleep(3)
-            set_user_value(user_id,'date',str(datetime.now()+timedelta(days=3)))
+            set_expired_date(user_id,'3days')
             await message.answer("🌅 Key for 3 Days redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
             await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 3 Days key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
         elif args[1] in key1week:
             sleep(1)
             await message.answer("⌛ Please wait.")
             sleep(3)
-            set_user_value(user_id,'date',str(datetime.now()+timedelta(days=7)))
+            set_expired_date(user_id,'1week')
             await message.answer("🌅 Key for 1 Week redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
             await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Week key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
         elif args[1] in key1month:
             sleep(1)
             await message.answer("⌛ Please wait.")
             sleep(3)
-            set_user_value(user_id,'date',str(datetime.now()+timedelta(days=30)))
+            set_expired_date(user_id,'1month')
             await message.answer("🌅 Key for 1 Month redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
             await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Month key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
         elif args[1] in key3months:
             sleep(1)
             await message.answer("⌛ Please wait.")
             sleep(3)
-            set_user_value(user_id,'date',str(datetime.now()+timedelta(days=90)))
+            set_expired_date(user_id,'3months')
             await message.answer("🌅 Key for 3 Months redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
             await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 3 Months key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
         elif args[1] == '192.168.56.101':
@@ -376,6 +422,19 @@ async def redeem(message: Message): #DONE
             sleep(3)
             await message.answer("🌅 Virtual IP adresse redeemed successfully!")
             await bot.send_message(chat_id=redeem_ip_ID,text='🆕 *user redeemed IP*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
+            set_user_value(int(args[1]),'banned',True)
+            await bot.send_message(chat_id=banned_ID,text=get_user_info(int(args[1]),'first_name')+' unbanned successfully!')
+            for msg_id in range(message.message_id - 50, message.message_id):
+                try:
+                    await bot.delete_message(chat_id=int(args[1]), message_id=msg_id)
+                except:
+                    pass
+            try:
+                await bot.ban_chat_member(chat_id=main_channel_ID, user_id=int(args[1]))
+                await bot.ban_chat_member(chat_id=vouches_ID, user_id=int(args[1]))
+                await bot.send_message(chat_id=banned_ID,text="User "+get_user_info(int(args[1]),'first_name')+" has been banned from the channels.")
+            except Exception as e:
+                await bot.send_message(chat_id=banned_ID,text="Failed to ban user: "+str(e))      
         else:
             sleep(1)
             await message.answer("⌛ Please wait.")
