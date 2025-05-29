@@ -886,7 +886,7 @@ async def premium_pricing(callback: CallbackQuery, bot: Bot):
                 InlineKeyboardButton(text="◎ SOL", callback_data="sol")
             ],
             [
-                InlineKeyboardButton(text="🔙 BACK TO PRICING LIST", callback_data="purchase")
+                InlineKeyboardButton(text="🔙 BACK TO PRICING LIST", callback_data="p=Purchase")
             ]
         ]
         )
@@ -922,7 +922,7 @@ async def regular_pricing(callback: CallbackQuery, bot: Bot):
                 InlineKeyboardButton(text="◎ SOL", callback_data="sol")
             ],
             [
-                InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+                InlineKeyboardButton(text="🔙 BACK TO PRICING LIST", callback_data="Purchase")
             ]
         ]
         )
