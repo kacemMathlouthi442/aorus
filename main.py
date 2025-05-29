@@ -222,7 +222,7 @@ async def phonelist(message: Message):
 
 #CHECK FOR SERVICES
 @dp.message(Command("services")) #DONE
-async def services(message: Message):
+async def check_services(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
         keyboard = InlineKeyboardMarkup(
