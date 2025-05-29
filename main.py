@@ -362,11 +362,12 @@ async def purchase(message: Message):
         await message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
                                      
   • 1 Hour Plan   ➜ *10$ \(trial mode\)*                                                                   
-  • 1 Day plan    ➜ *15$*
+  • 1 Day plan    ➜ *25$*
   • 3 Days plan   ➜ *40$*
   • 1 Week plan   ➜ *80$*
   • 1 Month plan  ➜ *220$*
-  • 3 Months plan ➜ *480$*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+  • 3 Months plan ➜ *480$*
+  • Premium plan ➜ *45$ \(2 days \+ bot sources\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 
 #PROFILE
@@ -889,7 +890,7 @@ async def pricing(callback: CallbackQuery, bot: Bot):
   • 1 Week plan   ➜ *80$*
   • 1 Month plan  ➜ *220$*
   • 3 Months plan ➜ *480$*
-  • Premium plan ➜ *45$ \(2 days + bot sources\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+  • Premium plan ➜ *45$ \(2 days \+ bot sources\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 #BTC
 @dp.callback_query(F.data.in_(["btc"])) #DONE
