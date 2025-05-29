@@ -177,7 +177,7 @@ async def unban_user(message: Message):
     if user_id == admin_ID:
         args = message.text.split(maxsplit=1)
         set_user_value(int(args[1]),'banned',True)
-        await bot.send_message(chat_id=banned_ID,text=get_user_info(int(args[1]),'first_name')+' unbanned successfully!')
+        await bot.send_message(chat_id=banned_ID,text=get_user_info(int(args[1]),'first_name')+' banned successfully!')
         for msg_id in range(message.message_id - 50, message.message_id):
             try:
                 await bot.delete_message(chat_id=int(args[1]), message_id=msg_id)
@@ -433,18 +433,12 @@ async def redeem(message: Message): #DONE
         ]
         )
             if args[1] in key1hour:
-                if get_user_info(user_id,'IP'):
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(3)
-                    set_expired_date(user_id,'1hour')
-                    await message.answer("🌅 Trial Key for 1 Hour redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Hour key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-                else:   
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(9)
-                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+                sleep(1)
+                await message.answer("⌛ Please wait.")
+                sleep(3)
+                set_expired_date(user_id,'1hour')
+                await message.answer("🌅 Trial Key for 1 Hour redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")                    
+                await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Hour key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
             elif args[1] in key1day:
                 if get_user_info(user_id,'IP'):
                     sleep(1)
@@ -890,11 +884,12 @@ async def pricing(callback: CallbackQuery, bot: Bot):
         await callback.message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
                                      
   • 1 Hour Plan   ➜ *10$ \(trial mode\)*                                                                   
-  • 1 Day plan    ➜ *15$*
+  • 1 Day plan    ➜ *25$*
   • 3 Days plan   ➜ *40$*
   • 1 Week plan   ➜ *80$*
   • 1 Month plan  ➜ *220$*
-  • 3 Months plan ➜ *480$*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+  • 3 Months plan ➜ *480$*
+  • Premium plan ➜ *45$ \(2 days + bot sources\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 #BTC
 @dp.callback_query(F.data.in_(["btc"])) #DONE
