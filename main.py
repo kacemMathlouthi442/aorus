@@ -115,10 +115,12 @@ def set_expired_date(user_id,plan):
 
 #is user in channels
 async def is_user_in_channel(bot: Bot, user_id):
+    try:
         member: ChatMember = await bot.get_chat_member(chat_id=vouches_ID, user_id=user_id)
         member1: ChatMember = await bot.get_chat_member(chat_id=main_channel_ID, user_id=user_id)
         return member.status in [ChatMemberStatus.MEMBER, ChatMemberStatus.CREATOR, ChatMemberStatus.ADMINISTRATOR] and member1.status in [ChatMemberStatus.MEMBER, ChatMemberStatus.CREATOR, ChatMemberStatus.ADMINISTRATOR]
-
+    except:
+        return True
     
 
 #START
@@ -290,7 +292,7 @@ async def phonelist(message: Message):
                 ]
                 )
             await message.delete()
-            await message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
+            await message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
 
 
 #CHECK FOR SERVICES
@@ -332,7 +334,8 @@ async def check_services(message: Message):
                 ]
                 )
             await message.delete()
-            await message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
+            await message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
+
 
 #PURACHSING COMMAND
 @dp.message(Command("purchase")) #DONE
@@ -588,7 +591,7 @@ async def send_local_video(message: Message):
                 ]
                 )
             await message.delete()
-            await message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
+            await message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
 
 #PREBUILT COMMANDS
 @dp.message(Command("paypal","venmo","applepay","coinbase","microsoft","amazon","quadpay")) #DONE
@@ -639,7 +642,7 @@ async def prebuilt_commands(message: Message):
                 ]
                 )
             await message.delete()
-            await message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
+            await message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
 
 #RESTART
 @dp.callback_query(F.data.in_(["back"]))#DONE
@@ -711,7 +714,7 @@ async def check_subchannel(callback: CallbackQuery, bot: Bot):
                     ]
                 ]
                 )
-            await callback.message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
+            await callback.message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
 
 
 #COMMANDS
@@ -761,7 +764,8 @@ async def commands(callback: CallbackQuery, bot: Bot):
                 ]
                 )
             await callback.message.delete()
-            await callback.message.answer("⚠ You have to subscribe on our channels first to use this command.",parse_mode='MarkdownV2',reply_markup=keyboard)
+            await callback.message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
+
 
 #PROFILE
 @dp.callback_query(F.data.in_(["profile"])) #DONE
@@ -889,6 +893,7 @@ async def pricing(callback: CallbackQuery, bot: Bot):
   • 1 Month plan  ➜ *220$*
   • 3 Months plan ➜ *480$*
   • Premium plan ➜ *45$ \(2 days \+ bot sources\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+
 
 #BTC
 @dp.callback_query(F.data.in_(["btc"])) #DONE
