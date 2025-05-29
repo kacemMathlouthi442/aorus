@@ -119,7 +119,7 @@ async def unban_user(message: Message):
     if user_id == admin_ID:
         args = message.text.split(maxsplit=1)
         set_user_value(int(args[1]),'banned',True)
-        await bot.send_message(chat_id=banned_ID,text=get_user_info(int(args[1]))+' unbanned successfully!')
+        await bot.send_message(chat_id=banned_ID,text=get_user_info(int(args[1]),'first_name')+' unbanned successfully!')
         for msg_id in range(message.message_id - 50, message.message_id):
             try:
                 await bot.delete_message(chat_id=int(args[1]), message_id=msg_id)
@@ -142,7 +142,7 @@ async def unban_user(message: Message):
     if user_id == admin_ID:
         args = message.text.split(maxsplit=1)
         set_user_value(int(args[1]),'banned',False)
-        await bot.send_message(chat_id=banned_ID,text=get_user_info(int(args[1]))+' unbanned successfully!')
+        await bot.send_message(chat_id=banned_ID,text=get_user_info(int(args[1]),'first_name')+' unbanned successfully!')
         try:
             await bot.unban_chat_member(chat_id=main_channel_ID, user_id=int(args[1]))
             await bot.unban_chat_member(chat_id=vouches_ID, user_id=int(args[1]))
@@ -391,7 +391,7 @@ async def send_local_video(message: Message):
         keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
         keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
         if get_user_info(user_id,'date')!='N/A':
-                now = datetime
+                now = datetime.now()
                 expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
                 if now < expire_date:
                     args = message.text.split(maxsplit=4)
@@ -432,7 +432,7 @@ async def prebuilt_commands(message: Message):
         keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
         keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
         if get_user_info(user_id,'date')!='N/A':
-                now = datetime
+                now = datetime.now()
                 expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
                 if now < expire_date:
                     args = message.text.split(maxsplit=2)
@@ -548,16 +548,13 @@ async def check_profile(callback: CallbackQuery, bot: Bot):
             username='None'
         if get_user_info(user_id,'date')=='N/A' and not (get_user_info(user_id,'trial')):
             status = 'No Active Licence detected.'
-        else:
-            if get_user_info(user_id,'trial'):
+        elif get_user_info(user_id,'date')!='N/A':
                 now = datetime.now()
                 expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
                 if now > expire_date:
                     status = 'No Active Licence detected.'
                 else:
                     status = 'Active Licence detected.'
-            else:
-                status = 'No Active Licence detected.'
         keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
