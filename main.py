@@ -437,7 +437,7 @@ async def prebuilt_commands(message: Message):
                 if now < expire_date:
                     args = message.text.split(maxsplit=2)
                     if len(args)<3:
-                        await message.answer("You have to enter 2 arguments, /call [victim_number] [digitlenght]")
+                        await message.answer("You have to enter 2 arguments, "+args[0]+" [victim_number] [digitlenght]")
                     else:
                         victim=args[1]
                         if victim.isdecimal() and 6<=len(victim)<=15 and args[2].isdecimal():
