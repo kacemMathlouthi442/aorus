@@ -428,7 +428,7 @@ async def redeem(message: Message): #DONE
             sleep(3)
             await message.answer("🌅 Virtual IP adresse redeemed successfully!")
             await bot.send_message(chat_id=redeem_ip_ID,text='🆕 *user redeemed IP*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-            set_user_value(int(args[1]),'banned',True) 
+            set_user_value(user_id,'IP',True) 
         else:
             keyboard1 = InlineKeyboardMarkup(
         inline_keyboard=[
