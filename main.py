@@ -59,7 +59,7 @@ admin_ID,new_users_ID,redeemed_keys_ID,redeem_ip_ID,banned_ID,main_channel_ID,vo
 
 main_channel_link,vouches_link,admin_link = 'https://t.me/+bVgkMu_cq-sxNDI0','https://t.me/+iuVoCM_yAuY1M2Fk','https://t.me/xccn5426' #CHANNEL LINKS 
 
-btc,usdt,sol,ltc = 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk','TRRVAuPEGJ4EgE33u1pV6gNUXxM1R5v1aY','8Ra9HKVrKNakEeQfqDzrVn1sFoQoFmbR51UHMRweT9hY','LRJ8n55djedy4jyKP3Kkqi6iEy3BYC1FLt'
+btc,usdt,sol,ltc,eth = 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk','TRRVAuPEGJ4EgE33u1pV6gNUXxM1R5v1aY','8Ra9HKVrKNakEeQfqDzrVn1sFoQoFmbR51UHMRweT9hY','LRJ8n55djedy4jyKP3Kkqi6iEy3BYC1FLt','0xc76acc06684b2e2a2d43b9ba3b5f2618cd7a6307'
 
 #ESCAPE TEXT
 def escape_markdown(text):
@@ -214,14 +214,14 @@ async def unban_user(message: Message):
 #CONVERT WALLET
 @dp.message(Command("switch")) # DONE
 async def switch_wallets(message: Message):
-    global btc,usdt,sol,ltc
+    global btc,usdt,sol,ltc,eth
     user_id = message.from_user.id
     if user_id == admin_ID:
         if btc != 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk':
-            btc,usdt,sol,ltc = 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk','TRRVAuPEGJ4EgE33u1pV6gNUXxM1R5v1aY','8Ra9HKVrKNakEeQfqDzrVn1sFoQoFmbR51UHMRweT9hY','LRJ8n55djedy4jyKP3Kkqi6iEy3BYC1FLt'
+            btc,usdt,sol,ltc,eth = 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk','TRRVAuPEGJ4EgE33u1pV6gNUXxM1R5v1aY','8Ra9HKVrKNakEeQfqDzrVn1sFoQoFmbR51UHMRweT9hY','LRJ8n55djedy4jyKP3Kkqi6iEy3BYC1FLt','0xc76acc06684b2e2a2d43b9ba3b5f2618cd7a6307'
             await message.answer("From mahmod to kacem wallets switched successfully.")
         else:
-            btc,usdt,sol,ltc = '12cb6coYbjnWZz2iwmJQu7mozsNNiNVhDZ','TEVNwArAAHUQt85QzPLmrvr3mbYo1NCVpr','826JXyvv4VG9ktLbNWxJ7sde8SGSJRBqsAe8VQr5LShm','LfUJW3kWVh1JW3WcXLvskw15s3ywm55qkL'
+            btc,usdt,sol,ltc,eth = '12cb6coYbjnWZz2iwmJQu7mozsNNiNVhDZ','TEVNwArAAHUQt85QzPLmrvr3mbYo1NCVpr','826JXyvv4VG9ktLbNWxJ7sde8SGSJRBqsAe8VQr5LShm','LfUJW3kWVh1JW3WcXLvskw15s3ywm55qkL','0x8e289d96a6da254a8683cce2138fa27c2f9ff9ed'
             await message.answer("From kacem wallets to mahmod wallets switched successfully.")
     else:
         await message.answer("🚫 Only admin can use this command.")
@@ -348,8 +348,11 @@ async def purchase(message: Message):
                 InlineKeyboardButton(text="🆘 Support", url=admin_link)
             ],
             [
-                InlineKeyboardButton(text="💲 USDT", callback_data="usdt"),
                 InlineKeyboardButton(text="₿ BTC", callback_data="btc")
+            ],
+            [
+                InlineKeyboardButton(text="💲 USDT", callback_data="usdt"),
+                InlineKeyboardButton(text="♢ ETH", callback_data="eth")
             ],
             [
                 InlineKeyboardButton(text="𝑳 LTC", callback_data="ltc"),
@@ -871,8 +874,11 @@ async def pricing(callback: CallbackQuery, bot: Bot):
                 InlineKeyboardButton(text="🆘 Support", url=admin_link)
             ],
             [
-                InlineKeyboardButton(text="💲 USDT", callback_data="usdt"),
                 InlineKeyboardButton(text="₿ BTC", callback_data="btc")
+            ],
+            [
+                InlineKeyboardButton(text="💲 USDT", callback_data="usdt"),
+                InlineKeyboardButton(text="♢ ETH", callback_data="eth")
             ],
             [
                 InlineKeyboardButton(text="𝑳 LTC", callback_data="ltc"),
@@ -911,9 +917,11 @@ async def btc_wallet(callback: CallbackQuery):
         ]
         )
         await callback.message.delete()
-        await callback.message.answer("""*Bitcoin \(BTC\)*
-                                    
-• `"""+btc+"""`""",parse_mode='MarkdownV2', reply_markup=keyboard)
+        await callback.message.answer("""*💸 BTC \(SegWit\) Wallet Address*
+`"""+btc+"""`                          
+
+📥 Send only BTC via the SegWit network\.
+⚠️ Sending any other asset may result in loss of funds\.""",parse_mode='MarkdownV2', reply_markup=keyboard)
    
 
 #USDT
@@ -932,9 +940,11 @@ async def usdt_wallet(callback: CallbackQuery):
         ]
         )
         await callback.message.delete()
-        await callback.message.answer("""*USDT \(TRC20\)*
-                                    
-• `"""+usdt+"""`""",parse_mode='MarkdownV2', reply_markup=keyboard)
+        await callback.message.answer("""*💸 USDT \(TRC20\) Wallet Address*
+`"""+usdt+"""`                          
+
+📥 Send only USDT via the TRC20 network\.
+⚠️ Sending any other asset may result in loss of funds\.""",parse_mode='MarkdownV2', reply_markup=keyboard)
         
 
 #SOL
@@ -953,9 +963,11 @@ async def sol_wallet(callback: CallbackQuery):
         ]
         )
         await callback.message.delete()
-        await callback.message.answer("""*Solana \(SOL\)*
-                                  
-• `"""+sol+"""`""",parse_mode='MarkdownV2', reply_markup=keyboard)
+        await callback.message.answer("""*💸 SOL \(SOLANA\) Wallet Address*
+`"""+sol+"""`                          
+
+📥 Send only SOL via the SOLANA network\.
+⚠️ Sending any other asset may result in loss of funds\.""",parse_mode='MarkdownV2', reply_markup=keyboard)
 
 
 #LTC
@@ -974,9 +986,34 @@ async def ltc_wallet(callback: CallbackQuery):
         ]
         )
         await callback.message.delete()
-        await callback.message.answer("""*Litecoin \(LTC\)*
-                                  
-• `"""+ltc+"""`""",parse_mode='MarkdownV2', reply_markup=keyboard)
+        await callback.message.answer("""*💸 LTC \(LITECOIAN\) Wallet Address*
+`"""+ltc+"""`                          
+
+📥 Send only LTC via the LITECOIAN network\.
+⚠️ Sending any other asset may result in loss of funds\.""",parse_mode='MarkdownV2', reply_markup=keyboard)
+
+
+#ETH
+@dp.callback_query(F.data.in_(["eth"])) #DONE
+async def eth_wallet(callback: CallbackQuery):
+    user_id=callback.from_user.id
+    if not (get_user_info(user_id,'banned')):
+        keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+            InlineKeyboardButton(text="🆘 Support", url=admin_link)
+            ],
+            [
+                InlineKeyboardButton(text="🔙 BACK TO PRICING MENU", callback_data="Purchase")
+            ]
+        ]
+        )
+        await callback.message.delete()
+        await callback.message.answer("""*💸 ETH \(ERC20\) Wallet Address*
+`"""+eth+"""`                          
+
+📥 Send only ETH via the ERC20 network\.
+⚠️ Sending any other asset may result in loss of funds\.""",parse_mode='MarkdownV2', reply_markup=keyboard)
 
 
 #NON AVAILABLE COMMAND
@@ -1002,7 +1039,7 @@ async def unknown_text(message: Message):
                 [
                     InlineKeyboardButton(text="📞 Support", url=admin_link)
                 ]])
-        await message.answer("🤖 Sorry I didn't understand that. Please contact the support for any question.",reply_markup=keyboard)
+        await message.answer("🤖 Apologies, I didn’t understand your request. For further assistance, please contact our support team.",reply_markup=keyboard)
 
 
 # Run bot
