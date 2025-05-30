@@ -55,7 +55,7 @@ key3months = [line.strip() for line in lines]
 
 
 
-admin_ID,new_users_ID,redeemed_keys_ID,redeem_ip_ID,banned_ID,main_channel_ID,vouches_ID = 6219887804,-1002182436976,-1002618555054,-1002616169248,-1002659687622,-1002666251781,-1002662428684 #CHANNEL IDs
+admin_ID,new_users_ID,redeemed_keys_ID,redeem_ip_ID,banned_ID,main_channel_ID,vouches_ID = 6219887804,-1002182436976,-1002618555054,-1002616169248,-1002394804551,-1002666251781,-1002662428684 #CHANNEL IDs
 
 main_channel_link,vouches_link,admin_link = 'https://t.me/+bVgkMu_cq-sxNDI0','https://t.me/+iuVoCM_yAuY1M2Fk','https://t.me/merroooXxx' #CHANNEL LINKS 
 
