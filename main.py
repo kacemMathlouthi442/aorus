@@ -55,9 +55,9 @@ key3months = [line.strip() for line in lines]
 
 
 
-admin_ID,new_users_ID,redeemed_keys_ID,redeem_ip_ID,banned_ID,main_channel_ID,vouches_ID = 7937156097,-1002182436976,-1002618555054,-1002616169248,-1002659687622,-1002666251781,-1002662428684 #CHANNEL IDs
+admin_ID,new_users_ID,redeemed_keys_ID,redeem_ip_ID,banned_ID,main_channel_ID,vouches_ID = 6219887804,-1002182436976,-1002618555054,-1002616169248,-1002659687622,-1002666251781,-1002662428684 #CHANNEL IDs
 
-main_channel_link,vouches_link,admin_link = 'https://t.me/+bVgkMu_cq-sxNDI0','https://t.me/+iuVoCM_yAuY1M2Fk','https://t.me/xccn5426' #CHANNEL LINKS 
+main_channel_link,vouches_link,admin_link = 'https://t.me/+bVgkMu_cq-sxNDI0','https://t.me/+iuVoCM_yAuY1M2Fk','https://t.me/merroooXxx' #CHANNEL LINKS 
 
 btc,usdt,sol,ltc,eth = 'bc1q98y83fh28y6ysklu9qmla7enuegldmgdcdawvk','TRRVAuPEGJ4EgE33u1pV6gNUXxM1R5v1aY','8Ra9HKVrKNakEeQfqDzrVn1sFoQoFmbR51UHMRweT9hY','LRJ8n55djedy4jyKP3Kkqi6iEy3BYC1FLt','0xc76acc06684b2e2a2d43b9ba3b5f2618cd7a6307'
 
@@ -895,11 +895,11 @@ async def premium_pricing(callback: CallbackQuery, bot: Bot):
         await callback.message.delete()
         await callback.message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
                                                                                                        
-  • 1 Day plan    ➜ *45$*
-  • 3 Days plan   ➜ *60$*
-  • 1 Week plan   ➜ *110$*
-  • 1 Month plan  ➜ *350$*
-  • 3 Months plan ➜ *560$*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+  • 1 Day plan    ➜ *45$* \+ \(15 pp logs \+ 15 cc\)
+  • 3 Days plan   ➜ *60$* \+ \(25 pp logs \+ 25 cc\)
+  • 1 Week plan   ➜ *110$* \+ \(35 pp logs \+ 35 cc\)
+  • 1 Month plan  ➜ *350$* \+ \+ \(50 pp logs \+ 50 cc\)
+  • 3 Months plan ➜ *560$* \+ \+ \(120 pp logs \+ 120 cc\)""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 
 #REGULAR PRICES
@@ -932,11 +932,11 @@ async def regular_pricing(callback: CallbackQuery, bot: Bot):
         await callback.message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
                                      
   • 1 Hour Plan   ➜ *10$ \(trial mode\)*                                                                   
-  • 1 Day plan    ➜ *25$*
-  • 3 Days plan   ➜ *40$*
-  • 1 Week plan   ➜ *80$*
-  • 1 Month plan  ➜ *220$*
-  • 3 Months plan ➜ *480$*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+  • 1 Day plan    ➜ *25$* \+ \(15 PayPal logs\)
+  • 3 Days plan   ➜ *40$* \+ \(25 PayPal logs\)
+  • 1 Week plan   ➜ *80$* \+ \(35 PayPal logs\)
+  • 1 Month plan  ➜ *220$* \+ \(50 PayPal logs\)
+  • 3 Months plan ➜ *480$* \+ \(120 PayPal logs\)""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 
 #BTC
