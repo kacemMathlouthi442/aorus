@@ -21,12 +21,6 @@ load_dotenv()
 bot = Bot(token=os.environ.get('token'))
 dp = Dispatcher()
 
-services = [
-    'marcus', 'zelle', 'email', 'cibc', 'cashapp', 'applepay', 'paypal',
-    'bankofamerica', 'amazon', 'gmail', 'wellsfargo', 'venmo', 'citizens',
-    'bank', 'capitalone', 'coinbase', 'afterpay', 'visa', 'mastercard',
-    'facebook', 'whatsapp', 'instagram'
-]
 
 with open("1hour.txt", "r") as file:
     lines = file.readlines()
@@ -543,62 +537,6 @@ async def send_local_video(message: Message):
                         else:
                             victim=args[1]
                             number=args[2]
-                            if victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15 and args[4].isdecimal() and args[3] in services:
-                                sleep(1)
-                                await message.answer("""🔥 CALL STARTED 
-    📲 VICTIM NUMBER : """+victim+"""
-    📞 CALLER ID : """+number+"""
-    🏦 SERVICE NAME : """+args[3]+"""
-    ⚙️ OTP DIGITS: """+args[4])
-                                sleep(8)
-                                if not (get_user_info(user_id,'trial')): 
-                                    await message.answer("❌ ERROR[302]\n\nSorry you can't make a call because your country doesen't support the spoofing.\nContact the support for help.",reply_markup=keyboard)
-                                else:
-                                    await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
-                            elif not(victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15):
-                                await message.answer("❌ You have to type a valid phone number.")
-                            elif args[3] not in services:
-                                await message.answer("❌ You have to choose a valid service.\nType /services to check our available services.")
-                            elif not(args[4].isdecimal()):
-                                await message.answer("❌ The digits must be between 4 and 8")
-                    else:
-                        await message.answer("❌ Your subscribe was expired.\nYou have to buy a new key.",reply_markup=keyboard1)
-            elif get_user_info(user_id,'date') =='N/A':
-                await message.answer("🚫 You didn't subscribe yet.",reply_markup=keyboard1)
-        else:
-            keyboard = InlineKeyboardMarkup(
-                inline_keyboard=[
-                    [
-                    InlineKeyboardButton(text="📢 Main Channel", url=main_channel_link),
-                InlineKeyboardButton(text="📃 Vouches Channel", url=vouches_link)
-                    ],
-                    [
-                        InlineKeyboardButton(text="✅ I've subscribed.", callback_data="check_subchannel")
-                    ]
-                ]
-                )
-            await message.delete()
-            await message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
-
-
-#call
-@dp.message(Command("other")) #DONE
-async def send_local_video(message: Message):
-    user_id = message.from_user.id
-    if not (get_user_info(user_id,'banned')):
-        if await is_user_in_channel(bot,user_id):
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="🆘 Support", url=admin_link)]])
-            keyboard1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")],[InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")]])
-            if get_user_info(user_id,'date')!='N/A':
-                    now = datetime.now()
-                    expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
-                    if now < expire_date:
-                        args = message.text.split(maxsplit=4)
-                        if len(args)<4:
-                            await message.answer("❌ You have to enter 4 arguments, /other [victim_number] [spoof_number] [service_name] [digitlenght]")
-                        else:
-                            victim=args[1]
-                            number=args[2]
                             if victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15 and args[4].isdecimal():
                                 sleep(1)
                                 await message.answer("""🔥 CALL STARTED 
@@ -633,6 +571,7 @@ async def send_local_video(message: Message):
                 )
             await message.delete()
             await message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
+
 
 #PREBUILT COMMANDS
 @dp.message(Command("paypal","venmo","applepay","coinbase","microsoft","amazon","quadpay")) #DONE
