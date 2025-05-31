@@ -289,48 +289,6 @@ async def phonelist(message: Message):
             await message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
 
 
-#CHECK FOR SERVICES
-@dp.message(Command("services")) #DONE
-async def check_services(message: Message):
-    user_id = message.from_user.id
-    if not (get_user_info(user_id,'banned')):
-        if await is_user_in_channel(bot,user_id):
-            keyboard = InlineKeyboardMarkup(
-                inline_keyboard=[
-                    [
-                    InlineKeyboardButton(text="💲 Pricing", callback_data="Purchase")
-                    ],
-                    [
-                        InlineKeyboardButton(text="🔙 BACK TO MENU", callback_data="back")
-                    ]
-                ]
-                )
-            await message.answer("""*Services list*
-
-    `marcus` \| `zelle` \| `email`
-    `cibc` \| `cashapp` \| `applepay`
-    `paypal` \| `bankofamerica` \| `amazon`
-    `gmail` \| `wellsfargo` \| `venmo`
-    `citizens` \| `bank` \| `capitalone`
-    `coinbase` \| `afterpay` \| `visa` 
-    `mastercard` \| `facebook` \| `whatsapp`
-    `instagram`""",parse_mode='MarkdownV2',reply_markup=keyboard)
-        else:
-            keyboard = InlineKeyboardMarkup(
-                inline_keyboard=[
-                    [
-                    InlineKeyboardButton(text="📢 Main Channel", url=main_channel_link),
-                InlineKeyboardButton(text="📃 Vouches Channel", url=vouches_link)
-                    ],
-                    [
-                        InlineKeyboardButton(text="✅ I've subscribed.", callback_data="check_subchannel")
-                    ]
-                ]
-                )
-            await message.delete()
-            await message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
-
-
 #PURACHSING COMMAND
 @dp.message(Command("purchase")) #DONE
 async def purchase(message: Message):
@@ -722,7 +680,6 @@ async def commands(callback: CallbackQuery, bot: Bot):
         • /call      ➜ Capture OTP for any service
         • /plan      ➜ Check account status
         • /purchase  ➜ Purchase access to the bot
-        • /services  ➜ All services available
                                                                                     
     ⚙️ Pre\-built modules
         • /paypal    ➜ Paypal Code
@@ -731,8 +688,7 @@ async def commands(callback: CallbackQuery, bot: Bot):
         • /coinbase  ➜ Coinbase Code
         • /microsoft ➜ Microsoft Code
         • /amazon    ➜ Amazon Code
-        • /quadpay   ➜ Quadpay Code
-        • /other   ➜ Other service Code""",reply_markup=keyboard,parse_mode='MarkdownV2')
+        • /quadpay   ➜ Quadpay Code""",reply_markup=keyboard,parse_mode='MarkdownV2')
         else:
             keyboard = InlineKeyboardMarkup(
                 inline_keyboard=[
