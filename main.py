@@ -895,11 +895,11 @@ async def premium_pricing(callback: CallbackQuery, bot: Bot):
         await callback.message.delete()
         await callback.message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
                                                                                                        
-  • 1 Day plan    ➜ *45$* \+ \(15 pp logs \+ 15 cc\)
-  • 3 Days plan   ➜ *60$* \+ \(25 pp logs \+ 25 cc\)
-  • 1 Week plan   ➜ *110$* \+ \(35 pp logs \+ 35 cc\)
-  • 1 Month plan  ➜ *350$* \+ \+ \(50 pp logs \+ 50 cc\)
-  • 3 Months plan ➜ *560$* \+ \+ \(120 pp logs \+ 120 cc\)""",parse_mode='MarkdownV2',reply_markup=keyboard)
+  • 1 Day plan    ➜ *45$ \+ \(15 pp logs \+ 15 cc\)*
+  • 3 Days plan   ➜ *60$ \+ \(25 pp logs \+ 25 cc\)*
+  • 1 Week plan   ➜ *110$ \+ \(35 pp logs \+ 35 cc\)*
+  • 1 Month plan  ➜ *350$ \+ \+ \(50 pp logs \+ 50 cc\)*
+  • 3 Months plan ➜ *560$ \+ \+ \(120 pp logs \+ 120 cc\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 
 #REGULAR PRICES
@@ -930,13 +930,12 @@ async def regular_pricing(callback: CallbackQuery, bot: Bot):
         )
         await callback.message.delete()
         await callback.message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
-                                     
-  • 1 Hour Plan   ➜ *10$ \(trial mode\)*                                                                   
-  • 1 Day plan    ➜ *25$* \+ \(15 PayPal logs\)
-  • 3 Days plan   ➜ *40$* \+ \(25 PayPal logs\)
-  • 1 Week plan   ➜ *80$* \+ \(35 PayPal logs\)
-  • 1 Month plan  ➜ *220$* \+ \(50 PayPal logs\)
-  • 3 Months plan ➜ *480$* \+ \(120 PayPal logs\)""",parse_mode='MarkdownV2',reply_markup=keyboard)
+                                                                                                      
+  • 1 Day plan    ➜ *25$ \+ \(15 PayPal logs\)*
+  • 3 Days plan   ➜ *40$ \+ \(25 PayPal logs\)*
+  • 1 Week plan   ➜ *80$ \+ \(35 PayPal logs\)*
+  • 1 Month plan  ➜ *220$ \+ \(50 PayPal logs\)*
+  • 3 Months plan ➜ *480$ \+ \(120 PayPal logs\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 
 #BTC
