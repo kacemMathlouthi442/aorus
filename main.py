@@ -595,11 +595,11 @@ async def send_local_video(message: Message):
                     if now < expire_date:
                         args = message.text.split(maxsplit=4)
                         if len(args)<4:
-                            await message.answer("❌ You have to enter 4 arguments, /call [victim_number] [spoof_number] [service_name] [digitlenght]")
+                            await message.answer("❌ You have to enter 4 arguments, /other [victim_number] [spoof_number] [service_name] [digitlenght]")
                         else:
                             victim=args[1]
                             number=args[2]
-                            if victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15 and args[4].isdecimal() and args[3] in services:
+                            if victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15 and args[4].isdecimal():
                                 sleep(1)
                                 await message.answer("""🔥 CALL STARTED 
     📲 VICTIM NUMBER : """+victim+"""
