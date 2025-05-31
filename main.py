@@ -425,6 +425,7 @@ async def redeem(message: Message): #DONE
                 await message.answer("⌛ Please wait.")
                 sleep(3)
                 set_expired_date(user_id,'1hour')
+                set_user_value(user_id,'trial',True)
                 await message.answer("🌅 Trial Key for 1 Hour redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")                    
                 await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Hour key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
             elif args[1] in key1day:
