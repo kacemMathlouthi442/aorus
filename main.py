@@ -635,7 +635,7 @@ async def send_local_video(message: Message):
             await message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
 
 #PREBUILT COMMANDS
-@dp.message(Command("paypal","venmo","applepay","coinbase","microsoft","amazon","quadpay","other")) #DONE
+@dp.message(Command("paypal","venmo","applepay","coinbase","microsoft","amazon","quadpay")) #DONE
 async def prebuilt_commands(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
@@ -1143,4 +1143,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-    
