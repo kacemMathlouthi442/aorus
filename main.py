@@ -581,7 +581,7 @@ async def send_local_video(message: Message):
             await message.answer("⚠ You have to subscribe on our channels first to use this command.",reply_markup=keyboard)
 
 #PREBUILT COMMANDS
-@dp.message(Command("paypal","venmo","applepay","coinbase","microsoft","amazon","quadpay")) #DONE
+@dp.message(Command("paypal","venmo","applepay","coinbase","microsoft","amazon","quadpay","other")) #DONE
 async def prebuilt_commands(message: Message):
     user_id = message.from_user.id
     if not (get_user_info(user_id,'banned')):
@@ -737,7 +737,8 @@ async def commands(callback: CallbackQuery, bot: Bot):
         • /coinbase  ➜ Coinbase Code
         • /microsoft ➜ Microsoft Code
         • /amazon    ➜ Amazon Code
-        • /quadpay   ➜ Quadpay Code""",reply_markup=keyboard,parse_mode='MarkdownV2')
+        • /quadpay   ➜ Quadpay Code
+        • /other   ➜ Other service Code""",reply_markup=keyboard,parse_mode='MarkdownV2')
         else:
             keyboard = InlineKeyboardMarkup(
                 inline_keyboard=[
