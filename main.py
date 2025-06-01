@@ -337,7 +337,7 @@ async def redeem(message: Message): #DONE
                     await message.answer("⌛ Please wait.")
                     sleep(3)
                     set_expired_date(user_id,'1day')
-                    await message.answer("🌅 Key for 1 Day redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                    await message.answer("🌅 Daily Key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
                     await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Day key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
                 else:   
                     sleep(1)
@@ -350,7 +350,7 @@ async def redeem(message: Message): #DONE
                     await message.answer("⌛ Please wait.")
                     sleep(3)
                     set_expired_date(user_id,'1week')
-                    await message.answer("🌅 Key for 1 Week redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                    await message.answer("🌅 Weekly Key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
                     await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Week key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
                 else:   
                     sleep(1)
@@ -363,7 +363,7 @@ async def redeem(message: Message): #DONE
                     await message.answer("⌛ Please wait.")
                     sleep(3)
                     set_expired_date(user_id,'1month')
-                    await message.answer("🌅 Key for 1 Month redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                    await message.answer("🌅 Monthly Key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
                     await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Month key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
                 else:   
                     sleep(1)
