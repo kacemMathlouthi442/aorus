@@ -30,10 +30,6 @@ with open("1day.txt", "r") as file:
     lines = file.readlines()
 key1day = [line.strip() for line in lines]
 
-with open("3days.txt", "r") as file:
-    lines = file.readlines()
-key3days = [line.strip() for line in lines]
-
 with open("7days.txt", "r") as file:
     lines = file.readlines()
 key1week = [line.strip() for line in lines]
@@ -41,11 +37,6 @@ key1week = [line.strip() for line in lines]
 with open("month.txt", "r") as file:
     lines = file.readlines()
 key1month = [line.strip() for line in lines]
-
-with open("3months.txt", "r") as file:
-    lines = file.readlines()
-key3months = [line.strip() for line in lines]
-
 
 
 
@@ -69,41 +60,29 @@ def set_expired_date(user_id,plan):
             expire_date = now+timedelta(hours=1)
         elif plan == '1day':
             expire_date = now+timedelta(days=1)
-        elif plan == '3days':
-            expire_date = now+timedelta(days=3)
         elif plan == '1week':
             expire_date = now+timedelta(days=7)
         elif plan == '1month':
             expire_date = now+timedelta(days=30)
-        elif plan == '3months':
-            expire_date = now+timedelta(days=90)
     elif datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f") < now:
         if plan == '1hour':
             expire_date = now+timedelta(hours=1)
         elif plan == '1day':
             expire_date = now+timedelta(days=1)
-        elif plan == '3days':
-            expire_date = now+timedelta(days=3)
         elif plan == '1week':
             expire_date = now+timedelta(days=7)
         elif plan == '1month':
             expire_date = now+timedelta(days=30)
-        elif plan == '3months':
-            expire_date = now+timedelta(days=90)
     elif datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f") > now:
         old_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
         if plan == '1hour':
             expire_date = old_date+timedelta(hours=1)
         elif plan == '1day':
             expire_date = old_date+timedelta(days=1)
-        elif plan == '3days':
-            expire_date = old_date+timedelta(days=3)
         elif plan == '1week':
             expire_date = old_date+timedelta(days=7)
         elif plan == '1month':
             expire_date = old_date+timedelta(days=30)
-        elif plan == '3months':
-            expire_date = old_date+timedelta(days=90)
     set_user_value(user_id,'date',str(expire_date))
 
 
@@ -217,34 +196,6 @@ async def switch_wallets(message: Message):
         else:
             btc,usdt,sol,ltc,eth = '12cb6coYbjnWZz2iwmJQu7mozsNNiNVhDZ','TEVNwArAAHUQt85QzPLmrvr3mbYo1NCVpr','826JXyvv4VG9ktLbNWxJ7sde8SGSJRBqsAe8VQr5LShm','LfUJW3kWVh1JW3WcXLvskw15s3ywm55qkL','0x8e289d96a6da254a8683cce2138fa27c2f9ff9ed'
             await message.answer("From kacem wallets to mahmod wallets switched successfully.")
-    else:
-        await message.answer("🚫 Only admin can use this command.")
-
-
-#CONVERT MAIN CHANNEL LINK
-@dp.message(Command("channel")) # DONE
-async def switch_channel_link(message: Message):
-    global main_channel_ID,main_channel_link
-    user_id = message.from_user.id
-    if user_id == admin_ID:
-        args = message.text.split(maxsplit=2)
-        main_channel_link = 'https://t.me/'+args[1]
-        main_channel_ID = int(args[2])
-        await bot.send_message(chat_id=admin_ID ,text='Channel id and link replaced successfully')
-    else:
-        await message.answer("🚫 Only admin can use this command.")
-
-
-#CONVERT vouches LINK
-@dp.message(Command("vouches")) # DONE
-async def switch_vouches_link(message: Message):
-    global vouches_ID,vouches_link
-    user_id = message.from_user.id
-    if user_id == admin_ID:
-        args = message.text.split(maxsplit=2)
-        vouches_link = 'https://t.me/'+args[1]
-        vouches_ID = int(args[2])
-        await bot.send_message(chat_id=admin_ID ,text='Vouches id and link replaced successfully')
     else:
         await message.answer("🚫 Only admin can use this command.")
 
@@ -393,19 +344,6 @@ async def redeem(message: Message): #DONE
                     await message.answer("⌛ Please wait.")
                     sleep(9)
                     await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
-            elif args[1] in key3days:
-                if get_user_info(user_id,'IP'):
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(3)
-                    set_expired_date(user_id,'3days')
-                    await message.answer("🌅 Key for 3 Days redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 3 Days key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-                else:   
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(9)
-                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
             elif args[1] in key1week:
                 if get_user_info(user_id,'IP'):
                     sleep(1)
@@ -427,19 +365,6 @@ async def redeem(message: Message): #DONE
                     set_expired_date(user_id,'1month')
                     await message.answer("🌅 Key for 1 Month redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
                     await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Month key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-                else:   
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(9)
-                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
-            elif args[1] in key3months:
-                if get_user_info(user_id,'IP'):
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(3)
-                    set_expired_date(user_id,'3months')
-                    await message.answer("🌅 Key for 3 Months redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 3 Months key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
                 else:   
                     sleep(1)
                     await message.answer("⌛ Please wait.")
@@ -709,6 +634,7 @@ async def commands(callback: CallbackQuery, bot: Bot):
 @dp.callback_query(F.data.in_(["profile"])) #DONE
 async def check_profile(callback: CallbackQuery, bot: Bot):
     user_id = callback.from_user.id
+    name = callback.from_user.first_name
     if not (get_user_info(user_id,'banned')):
         if callback.from_user.username:
             username = "@"+callback.from_user.username
@@ -738,7 +664,7 @@ async def check_profile(callback: CallbackQuery, bot: Bot):
 
 ℹ️ My informations\:
   • My ID\: `"""+str(user_id)+"""`
-  • My Name\: `"""+escape_markdown(get_user_info(user_id,'first_name'))+"""`
+  • My Name\: `"""+escape_markdown(name)+"""`
   • My Username\: """+escape_markdown(username)+"""
   • Subscription Status\: """+escape_markdown(status),parse_mode='MarkdownV2',reply_markup=keyboard)
 
@@ -847,11 +773,9 @@ async def premium_pricing(callback: CallbackQuery, bot: Bot):
         await callback.message.delete()
         await callback.message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
                                                                                                        
-  • 1 Day plan    ➜ *45$ \+ \(15 pp logs \+ 15 cc\)*
-  • 3 Days plan   ➜ *60$ \+ \(25 pp logs \+ 25 cc\)*
-  • 1 Week plan   ➜ *110$ \+ \(35 pp logs \+ 35 cc\)*
-  • 1 Month plan  ➜ *350$ \+ \+ \(50 pp logs \+ 50 cc\)*
-  • 3 Months plan ➜ *560$ \+ \+ \(120 pp logs \+ 120 cc\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+  • Daily   ➜ *45$ \+ \(30 cc\)*
+  • Weekly  ➜ *110$ \+ \(70 cc\)*
+  • Monthly ➜ *350$ \+ \(100 cc\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 
 #REGULAR PRICES
@@ -883,11 +807,9 @@ async def regular_pricing(callback: CallbackQuery, bot: Bot):
         await callback.message.delete()
         await callback.message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
                                                                                                       
-  • 1 Day plan    ➜ *25$ \+ \(15 PayPal logs\)*
-  • 3 Days plan   ➜ *40$ \+ \(25 PayPal logs\)*
-  • 1 Week plan   ➜ *80$ \+ \(35 PayPal logs\)*
-  • 1 Month plan  ➜ *220$ \+ \(50 PayPal logs\)*
-  • 3 Months plan ➜ *480$ \+ \(120 PayPal logs\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+  • Daily   ➜ *30$ \+ \(15 cc\)*
+  • Weekly  ➜ *50$ \+ \(35 cc\)*
+  • Monthly ➜ *90$ \+ \(50 cc\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
 
 
 #BTC
