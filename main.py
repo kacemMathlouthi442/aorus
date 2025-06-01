@@ -744,76 +744,92 @@ async def pricing(callback: CallbackQuery, bot: Bot):
         await callback.message.answer("""💸 Choose your subscription type:""",reply_markup=keyboard)
 
 
-#PREMIUM PRICES
-@dp.callback_query(F.data.in_(["premium"])) #DONE
-async def premium_pricing(callback: CallbackQuery, bot: Bot):
-    user_id = callback.from_user.id
-    if not (get_user_info(user_id,'banned')):
-        keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(text="🆘 Support", url=admin_link)
-            ],
-            [
-                InlineKeyboardButton(text="₿ BTC", callback_data="btc")
-            ],
-            [
-                InlineKeyboardButton(text="💲 USDT", callback_data="usdt"),
-                InlineKeyboardButton(text="♢ ETH", callback_data="eth")
-            ],
-            [
-                InlineKeyboardButton(text="𝑳 LTC", callback_data="ltc"),
-                InlineKeyboardButton(text="◎ SOL", callback_data="sol")
-            ],
-            [
-                InlineKeyboardButton(text="🔙 BACK TO PRICING LIST", callback_data="Purchase")
-            ]
-        ]
-        )
-        await callback.message.delete()
-        await callback.message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
-                                                                                                       
-  • Daily   ➜ *45$ \+ \(30 cc\)*
-  • Weekly  ➜ *110$ \+ \(70 cc\)*
-  • Monthly ➜ *350$ \+ \(100 cc\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
-
-
 #REGULAR PRICES
-@dp.callback_query(F.data.in_(["regular"])) #DONE
-async def regular_pricing(callback: CallbackQuery, bot: Bot):
+@dp.callback_query(F.data.in_(["premium",'regular'])) #DONE
+async def pricing(callback: CallbackQuery, bot: Bot):
     user_id = callback.from_user.id
     if not (get_user_info(user_id,'banned')):
-        keyboard = InlineKeyboardMarkup(
+        if callback == 'premium':
+            keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(text="🕐 Daily", callback_data="wallp"),
+                    InlineKeyboardButton(text="🗓️ Weekly", callback_data="wallp")
+                ],
+                [
+                    InlineKeyboardButton(text="📆 Monthly", callback_data="wallp")
+                ],
+                [
+                    InlineKeyboardButton(text="🔙 BACK TO PRICING LIST", callback_data="Purchase")
+                ]
+            ]
+            )
+            await callback.message.delete()
+            await callback.message.answer("""💸 Please choose your subscription plan below\:
+                                        
+    • Daily   ➜ *45$ \+ \(15 cc\)*
+    • Weekly  ➜ *110$ \+ \(35 cc\)*
+    • Monthly ➜ *350$ \+ \(50 cc\)*""",reply_markup=keyboard)
+        else:
+            keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="🆘 Support", url=admin_link)
+                InlineKeyboardButton(text="🕐 Daily", callback_data="wallr"),
+                InlineKeyboardButton(text="🗓️ Weekly", callback_data="wallr")
             ],
             [
-                InlineKeyboardButton(text="₿ BTC", callback_data="btc")
-            ],
-            [
-                InlineKeyboardButton(text="💲 USDT", callback_data="usdt"),
-                InlineKeyboardButton(text="♢ ETH", callback_data="eth")
-            ],
-            [
-                InlineKeyboardButton(text="𝑳 LTC", callback_data="ltc"),
-                InlineKeyboardButton(text="◎ SOL", callback_data="sol")
+                InlineKeyboardButton(text="📆 Monthly", callback_data="wallr")
             ],
             [
                 InlineKeyboardButton(text="🔙 BACK TO PRICING LIST", callback_data="Purchase")
             ]
         ]
         )
-        await callback.message.delete()
-        await callback.message.answer("""💸 Choose your subscription plan and send it to one of the following wallets bellow\:
-                                                                                                      
+            await callback.message.delete()
+            await callback.message.answer("""💸 Please choose your subscription plan below\:
+                                      
   • Daily   ➜ *30$ \+ \(15 cc\)*
   • Weekly  ➜ *50$ \+ \(35 cc\)*
-  • Monthly ➜ *90$ \+ \(50 cc\)*""",parse_mode='MarkdownV2',reply_markup=keyboard)
+  • Monthly ➜ *90$ \+ \(50 cc\)*""",reply_markup=keyboard)
+
+
+#WALLETS LIST
+@dp.callback_query(F.data.in_(['wallp','wallr'])) #DONE
+async def wallets_list(callback: CallbackQuery, bot: Bot):
+    user_id = callback.from_user.id
+    if not (get_user_info(user_id,'banned')):
+        if callback == 'wallp':
+            backb = 'premium'
+        else:
+            backb = 'regular'
+        keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(text="🆘 Support", url=admin_link)
+                ],
+                [
+                    InlineKeyboardButton(text="₿ BTC", callback_data='btc')
+                ],
+                [
+                    InlineKeyboardButton(text="💲 USDT", callback_data='usdt'),
+                    InlineKeyboardButton(text="♢ ETH", callback_data='eth')
+                ],
+                [
+                    InlineKeyboardButton(text="𝑳 LTC", callback_data='ltc'),
+                    InlineKeyboardButton(text="◎ SOL", callback_data='sol')
+                ],
+                [
+                    InlineKeyboardButton(text="🔙 BACK TO REGULAR LIST", callback_data=backb)
+                ]
+            ]
+            )
+        await callback.message.delete()
+        await callback.message.answer("""💸Please choose one of the following wallets bellow:""",reply_markup=keyboard)
+
 
 
 #BTC
-@dp.callback_query(F.data.in_(["btc"])) #DONE
+@dp.callback_query(F.data.in_(['btc'])) #DONE
 async def btc_wallet(callback: CallbackQuery):
     user_id=callback.from_user.id
     if not (get_user_info(user_id,'banned')):
@@ -897,7 +913,7 @@ async def ltc_wallet(callback: CallbackQuery):
         ]
         )
         await callback.message.delete()
-        await callback.message.answer("""*💸 LTC \(LITECOIAN\) Wallet Address*
+        await callback.message.answer("""*💸 LTC \(LITECOIN\) Wallet Address*
 `"""+ltc+"""`                          
 
 📥 Send only LTC via the LITECOIAN network\.
