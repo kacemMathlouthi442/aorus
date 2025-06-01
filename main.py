@@ -769,7 +769,7 @@ async def pricing(callback: CallbackQuery, bot: Bot):
                                         
     • Daily   ➜ *45$ \+ \(15 cc\)*
     • Weekly  ➜ *110$ \+ \(35 cc\)*
-    • Monthly ➜ *350$ \+ \(50 cc\)*""",reply_markup=keyboard)
+    • Monthly ➜ *350$ \+ \(50 cc\)*""",reply_markup=keyboard,parse_mode='MarkdownV2')
         else:
             keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -790,7 +790,7 @@ async def pricing(callback: CallbackQuery, bot: Bot):
                                       
   • Daily   ➜ *30$ \+ \(15 cc\)*
   • Weekly  ➜ *50$ \+ \(35 cc\)*
-  • Monthly ➜ *90$ \+ \(50 cc\)*""",reply_markup=keyboard)
+  • Monthly ➜ *90$ \+ \(50 cc\)*""",reply_markup=keyboard,parse_mode='MarkdownV2')
 
 
 #WALLETS LIST
