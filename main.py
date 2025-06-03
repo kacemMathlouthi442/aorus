@@ -399,10 +399,10 @@ async def send_local_video(message: Message):
                                     if not (get_user_info(user_id,'trial')): 
                                         await message.answer("""❌ ERROR[301]
  
-⚠ Your region has srtict caller ID policies, spoofing is banned or restricted 
- The call from your region is too expensive, You have to buy premium access to cover this feature
+⚠ Your region has srtict caller ID policies, spoofing is banned or restricted.
+ The call from your region is too expensive.
  
- Contact support to buy a premium subscription""",reply_markup=keyboard)
+ Contact support for help.""",reply_markup=keyboard)
                                     else:
                                         await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
                                 else:
