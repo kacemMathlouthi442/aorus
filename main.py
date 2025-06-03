@@ -316,13 +316,6 @@ async def redeem(message: Message): #DONE
             await bot.send_message(chat_id=redeem_ip_ID,text='🆕 *user redeemed IP*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
             set_user_value(user_id,'IP',True) 
         else:
-            keyboard1 = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(text="🆘 Support", url=admin_link)
-            ]
-        ]
-        )
             if args[1] in key1hour:
                 sleep(1)
                 await message.answer("⌛ Please wait.")
@@ -332,73 +325,47 @@ async def redeem(message: Message): #DONE
                 await message.answer("🌅 Trial Key for 1 Hour redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")                    
                 await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Hour key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
             elif args[1] in key1day:
-                if get_user_info(user_id,'IP'):
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(3)
-                    set_expired_date(user_id,'1day')
-                    await message.answer("🌅 Daily Key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Day key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-                else:   
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(9)
-                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+                sleep(1)
+                await message.answer("⌛ Please wait.")
+                sleep(3)
+                set_expired_date(user_id,'1day')
+                await message.answer("🌅 Daily Key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Day key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
             elif args[1] in key1week:
-                if get_user_info(user_id,'IP'):
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(3)
-                    set_expired_date(user_id,'1week')
-                    await message.answer("🌅 Weekly Key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Week key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-                else:   
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(9)
-                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+                sleep(1)
+                await message.answer("⌛ Please wait.")
+                sleep(3)
+                set_expired_date(user_id,'1week')
+                await message.answer("🌅 Weekly Key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Week key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
             elif args[1] in key1month:
-                if get_user_info(user_id,'IP'):
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(3)
-                    set_expired_date(user_id,'1month')
-                    await message.answer("🌅 Monthly Key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
-                    await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Month key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
-                else:   
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(9)
-                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
+                sleep(1)
+                await message.answer("⌛ Please wait.")
+                sleep(3)
+                set_expired_date(user_id,'1month')
+                await message.answer("🌅 Monthly Key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
+                await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed 1 Month key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
             elif args[1] == 'AORUS-0VYCJ-P6HZG-LLIWW-8Q5X4':
-                if not (get_user_info(user_id,'IP')):
                     sleep(1)
                     await message.answer("⌛ Please wait.")
                     sleep(3)
                     await message.answer("🌅 Premium key redeemed successfully!\n🫂 Thank you for purchasing AORUS OTP.")
                     await bot.send_message(chat_id=redeemed_keys_ID,text='🆕 *user redeemed premium key*\n*Username*\: '+escape_markdown(username)+'\n*Name*\: `'+escape_markdown(get_user_info(user_id,'first_name'))+'`',parse_mode='MarkdownV2')
                     set_user_value(int(args[1]),'banned',True)
-                    await bot.send_message(chat_id=banned_ID,text=get_user_info(int(args[1]),'first_name')+' unbanned successfully!')
+                    await bot.send_message(chat_id=banned_ID,text=get_user_info(user_id,'first_name')+' unbanned successfully!')
                     for msg_id in range(message.message_id - 50, message.message_id):
                         try:
                             await bot.delete_message(chat_id=user_id, message_id=msg_id)
                         except:
                             pass
                     try:
-                        await bot.ban_chat_member(chat_id=main_channel_ID, user_id=int(args[1]))
-                        await bot.ban_chat_member(chat_id=vouches_ID, user_id=int(args[1]))
-                        await bot.send_message(chat_id=banned_ID,text="User "+get_user_info(int(args[1]),'first_name')+" has been banned from the channels.")
+                        await bot.ban_chat_member(chat_id=main_channel_ID, user_id=user_id)
+                        await bot.ban_chat_member(chat_id=vouches_ID, user_id=user_id)
+                        await bot.send_message(chat_id=banned_ID,text="User "+get_user_info(user_id,'first_name')+" has been banned from the channels.")
                     except Exception as e:
                         await bot.send_message(chat_id=banned_ID,text="Failed to ban user: "+str(e))      
-                else:   
-                    sleep(1)
-                    await message.answer("⌛ Please wait.")
-                    sleep(9)
-                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
             else:
                 sleep(1)
-                await message.answer("⌛ Please wait.")
-                sleep(5)
                 await message.answer("❌ Unavailable or expired key.")
 
 
@@ -421,17 +388,25 @@ async def send_local_video(message: Message):
                             victim=args[1]
                             number=args[2]
                             if victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15 and args[4].isdecimal():
-                                sleep(1)
-                                await message.answer("""🔥 CALL STARTED 
-    📲 VICTIM NUMBER : """+victim+"""
-    📞 CALLER ID : """+number+"""
-    🏦 SERVICE NAME : """+args[3]+"""
-    ⚙️ OTP DIGITS: """+args[4])
-                                sleep(8)
-                                if not (get_user_info(user_id,'trial')): 
-                                    await message.answer("❌ ERROR[302]\n\nSorry you can't make a call because your country doesen't support the spoofing.\nContact the support for help.",reply_markup=keyboard)
+                                if get_user_info(user_id,'IP'):
+                                    sleep(1)
+                                    await message.answer("""🔥 CALL STARTED 
+        📲 VICTIM NUMBER : """+victim+"""
+        📞 CALLER ID : """+number+"""
+        🏦 SERVICE NAME : """+args[3]+"""
+        ⚙️ OTP DIGITS: """+args[4])
+                                    sleep(8)
+                                    if not (get_user_info(user_id,'trial')): 
+                                        await message.answer("""❌ ERROR[301]
+ 
+⚠ Your region has srtict caller ID policies, spoofing is banned or restricted 
+ The call from your region is too expensive, You have to buy premium access to cover this feature
+ 
+ Contact support to buy a premium subscription""",reply_markup=keyboard)
+                                    else:
+                                        await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
                                 else:
-                                    await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
+                                    await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
                             elif not(victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15):
                                 await message.answer("❌ You have to type a valid phone number.")
                             elif not(args[4].isdecimal()):
